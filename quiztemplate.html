@@ -15,18 +15,27 @@
         </div>
       </div><!-- /.container-fluid -->
     </nav>
+    <h1 class="quiz_title">{{quiz["title"]}}</h1>
     <form>
       <div class="multiple_choice">
-        <h1 class="quiz_title">{{quiz["title"]}}</h1>
+        <!--Beginning of multiple choice questions-->
         {% for question in quiz['multiple_choice'] %}
-          <p class="question_label">Multiple Choice Question {{quiz['multiple_choice'].index(question)+1}}: {{question['text']}}</p>
+          <p class="question_label">Multiple Choice Question {{quiz["multiple_choice"].index(question)+1}}: {{question['text']}}</p>
 
           {% for option in question['options'] %}
-            <input type="radio" class={{option}} value={{option}}><label for={{option}}>{{option}}</label><br>
+            <input type="radio" name="mc{{str(quiz['multiple_choice'].index(question))+'a'+str(question['options'].index(option))}}" class={{option}} value={{option}}><label for={{option}}>{{option}}</label><br>
           {% end %}
 
         {% end %}
       </div>
+      <div class="short_answer">
+        <!-- Beginning of short answer questions -->
+        {% for question in quiz['short_answer'] %}
+          <p class="question_label">Short Answer Question {{quiz['short_answer'].index(question)+1}}: {{question['text']}}</p>
+          <textarea name="sa{{quiz['short_answer'].index(question)}}" cols="40" rows="5"></textarea>
+        {% end %}
+      </div>
+
     </form>
 
   </body>
