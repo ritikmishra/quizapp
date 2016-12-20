@@ -1,0 +1,33 @@
+<html>
+  <head>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <style>
+      body { padding-top: 70px;
+             text-align: center;}
+      </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+    <form>
+      <div class="multiple_choice">
+        <h1 class="quiz_title">{{quiz["title"]}}</h1>
+        {% for question in quiz['multiple_choice'] %}
+          <p class="question_label">Multiple Choice Question {{quiz['multiple_choice'].index(question)+1}}: {{question['text']}}</p>
+
+          {% for option in question['options'] %}
+            <input type="radio" class={{option}} value={{option}}><label for={{option}}>{{option}}</label><br>
+          {% end %}
+
+        {% end %}
+      </div>
+    </form>
+
+  </body>
+</html>
