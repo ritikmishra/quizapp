@@ -1,11 +1,15 @@
 {
-  "quizzes": {
     "_comment": "Every object under this item will be its own quiz.",
     "example": {
       "title": "My First Quiz",
       "multiple_choice":[{
                           "text": "Is this a mutliple choice question?",
                           "options": ["Yes","No","Perhaps"],
+                          "answer": "Yes"
+                        },
+                        {
+                          "text": "What is microphone?",
+                          "options": ["False","True"],
                           "answer": "Yes"
                         }],
       "short_answer":[
@@ -16,4 +20,3 @@
                       }]
     }
   }
-}
