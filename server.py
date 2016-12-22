@@ -36,16 +36,21 @@ class MakeQuiz(tornado.web.RequestHandler):
     def post(self):
         self.quizname = random.randrange(0, 999999999999)
         print(self.quizdata)
+        seentitle = False
+        for key, value in list(self.quizdata.items()):
+            print(key)
+            if key == "title":
+                seentitle = True
+                quizjson[self.quizname] = self.quizdata
+                print(self.quizname)
+                with open("./quizzes.json", "w") as quizjsonfile:
+                    print(quizjson)
+                    quizjsonfile.write(json.dumps(quizjson, indent=4, separators=(',', ': ')))
+                self.write(quiztemplate.generate(quiz=quizjson[self.quizname],id=self.quizname))
+        if not seentitle:
+            self.write("Your quiz has no title, so we did not upload it to our server. ")
 
-        quizjson[self.quizname] = self.quizdata
-        print(self.quizname)
-        # self.write(quiztemplate.generate(quiz=quizjson[self.quizname]))
-        with open("./quizzes.json", "w") as quizjsonfile:
-            print(quizjson)
-            quizjsonfile.write(json.dumps(quizjson, indent=4, separators=(',', ': ')))
-        self.write(quiztemplate.generate(quiz=quizjson[self.quizname],id=self.quizname))
-        #yells at me for trying to send a list :(
-        #TODO: make it add an entry into quizzes.json
+
 
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
@@ -61,7 +66,7 @@ class SecondaryHandler(tornado.web.RequestHandler):
 
 def make_app():
     return tornado.web.Application([
-        (r"/", AnswerHandler),
+        (r"/checkanswer", AnswerHandler),
         (r"/quiz", SecondaryHandler),
         (r"/upload", MakeQuiz),
     ])
