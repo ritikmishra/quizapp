@@ -43,7 +43,7 @@ class MakeQuiz(tornado.web.RequestHandler):
         with open("./quizzes.json", "w") as quizjsonfile:
             print(quizjson)
             quizjsonfile.write(json.dumps(quizjson, indent=4, separators=(',', ': ')))
-        self.write(quiztemplate.generate(quiz=quizjson[self.quizname]))
+        self.write(quiztemplate.generate(quiz=quizjson[self.quizname],id=self.quizname))
         #yells at me for trying to send a list :(
         #TODO: make it add an entry into quizzes.json
 
@@ -57,7 +57,7 @@ class SecondaryHandler(tornado.web.RequestHandler):
             print(self.params["quiz-id"])
             self.write(quiztemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
         except KeyError:
-            self.write("Quiz not found")
+            self.write("Quiz with quiz id " + self.params['quiz-id'] + " not found")
 
 def make_app():
     return tornado.web.Application([
