@@ -5,9 +5,6 @@
       body { padding-top: 70px;
              text-align: center;}
       </style>
-      <script>
-        
-      </script>
   </head>
   <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -20,18 +17,21 @@
     </nav>
     <h1 class="quiz_title">{{quiz["title"]}}</h1>
     <p>Permanent quiz link: <a href="http://localhost:8888/quiz?quiz-id={{id}}">http://localhost:8888/quiz?quiz-id={{id}}</a></p>
-    <form>
+    <form action="http://localhost:8888/checkanswer?quiz-id={{id}}" method=post>
       <div class="multiple_choice">
         <!--Beginning of multiple choice questions-->
         {% try %}
           {% for question in quiz['multiple_choice'] %}
+            <fieldset id="mc{{str(quiz['multiple_choice'].index(question))}}">
             <p class="question_label">Multiple Choice Question {{quiz["multiple_choice"].index(question)+1}}: {{question['text']}}</p>
 
             {% for option in question['options'] %}
-              <input type="radio" name="mc{{str(quiz['multiple_choice'].index(question))+'a'+str(question['options'].index(option))}}" class={{option}} value={{option}}><label for={{option}}>{{option}}</label><br>
+              <input type="radio" name="mc{{str(quiz['multiple_choice'].index(question))}}" id="'a'+str(question['options'].index(option))}}" value="{{option}}"><label for="{{option}}">{{option}}</label><br>
             {% end %}
+            </fieldset>
 
           {% end %}
+
           {% except KeyError %}
           <p class="question_label">No multiple choice questions in this quiz</p>
 

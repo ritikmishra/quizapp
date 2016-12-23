@@ -29,10 +29,22 @@ def stringtojson(words):
         # return words
 
 class Answer:
-    def __init__(self, keywords, answer):
+    #keywords, sa_answers,
+    def __init__(self, mc_user_answers, mc_question_answers):
         """
-        Accepts list 'keywords' and string 'answer'. It tokenizes answer, expands contractions and deletes unnecessary words from the tokenization i.e 'the', 'is' will be deleted.
+        Accepts list of lists 'keywords', list 'sa_answers', list 'mc_user_answers', list 'mc_question_answers'
         """
-        self.keywords = keywords
-        self.answer = answer
+        # self.keywords = keywords
+        # self.sa_answers = sa_answers
+        self.mc_user_answers = mc_user_answers
+        self.mc_question_answers = mc_question_answers
         #tokenize the answer
+    def mc_check(self):
+        result = {}
+        for q_num, user_ans in enumerate(self.mc_user_answers):
+            for question_ans in self.mc_question_answers:
+                if user_ans == question_ans:
+                    result[q_num] = True
+                else:
+                    result[q_num] = False
+        return result
