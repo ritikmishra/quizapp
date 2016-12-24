@@ -28,16 +28,19 @@ class AnswerHandler(tornado.web.RequestHandler):
         user_sa_ans = []
         for key, value in list(self.params.items()):
             if key != 'quiz-id':
-                print(key[0:1])
+
                 if key[0:2] == 'mc':
                     user_mc_ans.append(value)
                 elif key[0:2] == 'sa':
                     user_sa_ans.append(value)
         for question in list(quizjson[self.params["quiz-id"]]['multiple_choice']):
             q_mc_ans.append(question["answer"])
-        checkans = Answer(user_mc_ans, q_mc_ans)
+        for question in list(quizjson[self.params["quiz-id"]]['short_answer']):
+            q_sa_keywords.append(question["keywords"])
+        checkans = Answer(q_sa_keywords, user_sa_ans, user_mc_ans, q_mc_ans)
         print(user_mc_ans)
         print(q_mc_ans)
+        print(checkans.sa_check())
         self.write(checkans.mc_check())
 
 class MakeQuiz(tornado.web.RequestHandler):

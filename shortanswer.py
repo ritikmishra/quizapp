@@ -6,6 +6,9 @@ It defines the Answer class which has methods for seeing if an answer is correct
 Also has some other useful functions
 """
 import json
+import nltk
+from nltk.corpus import stopwords
+
 
 def paramsfromrequest(request):
     """ Makes HTTPRequest nice to me"""
@@ -29,13 +32,13 @@ def stringtojson(words):
         # return words
 
 class Answer:
-    #keywords, sa_answers,
-    def __init__(self, mc_user_answers, mc_question_answers):
+    #
+    def __init__(self, keywords, sa_answers, mc_user_answers, mc_question_answers):
         """
         Accepts list of lists 'keywords', list 'sa_answers', list 'mc_user_answers', list 'mc_question_answers'
         """
-        # self.keywords = keywords
-        # self.sa_answers = sa_answers
+        self.keywords = keywords
+        self.sa_answers = sa_answers
         self.mc_user_answers = mc_user_answers
         self.mc_question_answers = mc_question_answers
         #tokenize the answer
@@ -48,3 +51,31 @@ class Answer:
                 else:
                     result[q_num] = False
         return result
+
+    def normalize(self, tokens):
+        normalized_tokens = []
+        for word in tokens:
+            if word not in stopwords.words('english'):
+                normalized_tokens.append(word)
+        return normalized_tokens
+
+    def sa_check(self):
+        for x, keylist in enumerate(self.keywords):
+            #keylist is list
+            self.keywords[x] = self.normalize(keylist)
+        self.percent_correct = {}
+        print(self.keywords)
+        for q_num, u_ans in enumerate(self.sa_answers):
+            print(u_ans)
+            self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans))
+            self.num_of_words_in_ans = len(self.u_ans_words)
+            self.num_of_words_in_both = 0
+            for word in self.u_ans_words:
+                print(word)
+                for keyword in self.keywords[q_num]:
+                    print(keyword)
+                    if word == keyword:
+                        self.num_of_words_in_both += 1
+            #end of checking for keywords in user answer
+        self.percent_correct[q_num] = self.num_of_words_in_both/self.num_of_words_in_ans
+        return self.percent_correct

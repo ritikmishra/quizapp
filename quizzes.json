@@ -69,7 +69,7 @@
                 "text": "Is this a mutliple choice question?"
             },
             {
-                "answer": "Yes",
+                "answer": "True",
                 "options": [
                     "False",
                     "True"
