@@ -46,10 +46,12 @@ class Answer:
         result = {}
         for q_num, user_ans in enumerate(self.mc_user_answers):
             for question_ans in self.mc_question_answers:
-                if user_ans == question_ans:
-                    result[q_num] = True
-                else:
-                    result[q_num] = False
+                print(user_ans)
+                print(question_ans)
+            if user_ans == self.mc_question_answers[q_num]:
+                result[q_num] = [user_ans, True]
+            else:
+                result[q_num] = [user_ans, False]
         return result
 
     def normalize(self, tokens):
@@ -64,18 +66,17 @@ class Answer:
             #keylist is list
             self.keywords[x] = self.normalize(keylist)
         self.percent_correct = {}
-        print(self.keywords)
+        # print(self.keywords)
         for q_num, u_ans in enumerate(self.sa_answers):
-            print(u_ans)
+            # print(u_ans)
             self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans))
             self.num_of_words_in_ans = len(self.u_ans_words)
             self.num_of_words_in_both = 0
-            for word in self.u_ans_words:
-                print(word)
-                for keyword in self.keywords[q_num]:
-                    print(keyword)
-                    if word == keyword:
+            for keyword in self.keywords[q_num]:
+                for word in self.u_ans_words:
+                    # print(keyword)
+                    if word.lower() == keyword:
                         self.num_of_words_in_both += 1
             #end of checking for keywords in user answer
-        self.percent_correct[q_num] = self.num_of_words_in_both/self.num_of_words_in_ans
+        self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100]
         return self.percent_correct

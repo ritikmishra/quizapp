@@ -12,15 +12,15 @@ with open("./quizzes.json", "r+") as quizjsonfile:
     quizjson = json.load(quizjsonfile)
 with open("./quiztemplate.html", "r+") as quiztemplatefile:
     quiztemplate = template.Template(quiztemplatefile.read())
+with open("./answertemplate.html", "r+") as quiztemplatefile:
+    answertemplate = template.Template(quiztemplatefile.read())
+
 
 
 
 class AnswerHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
-        for key, value in list(self.params.items()):
-            print("Arg: ",key)
-            print("Value: ",value)
     def post(self):
         user_mc_ans = []
         q_mc_ans = []
@@ -37,11 +37,16 @@ class AnswerHandler(tornado.web.RequestHandler):
             q_mc_ans.append(question["answer"])
         for question in list(quizjson[self.params["quiz-id"]]['short_answer']):
             q_sa_keywords.append(question["keywords"])
-        checkans = Answer(q_sa_keywords, user_sa_ans, user_mc_ans, q_mc_ans)
-        print(user_mc_ans)
-        print(q_mc_ans)
-        print(checkans.sa_check())
-        self.write(checkans.mc_check())
+        self.checkans = Answer(q_sa_keywords, user_sa_ans, user_mc_ans, q_mc_ans)
+        # print(user_mc_ans)
+        # print(q_mc_ans)
+        self.checked_mc = self.checkans.mc_check()
+        self.checked_sa = self.checkans.sa_check()
+        print("Short Answer questions \n ###############################")
+        print(self.checked_sa)
+        print("Multiple Choice questions \n ###############################")
+        print(self.checked_mc)
+        self.write(answertemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
 
 class MakeQuiz(tornado.web.RequestHandler):
     def prepare(self):

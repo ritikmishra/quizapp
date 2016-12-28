@@ -1,0 +1,54 @@
+<html>
+  <head>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <style>
+      body { padding-top: 70px;
+             text-align: center;}
+      div.answer-set { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
+      </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1 class="quiz_title">{{quiz["title"]}}</h1>
+      <p>Permanent quiz link: <a href="http://localhost:8888/quiz?quiz-id={{id}}">http://localhost:8888/quiz?quiz-id={{id}}</a></p>
+          <h2>Multiple Choice Questions</h2>
+          {% for qnum, mc_answer in list(mc_answers.items()) %}
+            <div class="answer-set">
+            <p style="bold">Question {{qnum + 1}}: {{quiz['multiple_choice'][qnum]['text']}}</p>
+            <p>You picked <b>{{mc_answer[0]}}</b> as your answer</p>
+            {% if mc_answer[1] %}
+              <p>That answer was <b>correct</b>.</p>
+            {% else %}
+              <p>That answer was <b style="font-weight: bold;">incorrect</b>.</p>
+              <p>The correct answer was <b>{{quiz['multiple_choice'][qnum]['answer']}}</b></p>
+            {% end %}
+            </div>
+          {% end %}
+
+
+          <h2>Short Answer Questions</h2>
+          {% for qnum, sa_answer in list(sa_answers.items()) %}
+            <div class="answer-set">
+            <p style="bold">Question {{qnum + 1}}: {{quiz['short_answer'][qnum]['text']}}</p>
+            <p>You picked <b>{{sa_answer[0]}}</b> as your answer</p>
+
+            <p>That answer was estimated to be <b>{{sa_answer[1]}}% correct</b>.</p>
+            <p>Words in a completely correct answer would include <b>{{quiz['short_answer'][qnum]['keywords']}}</b></p>
+
+            </div>
+          {% end %}
+    </div>
+    <div class="col-md-3"></div>
+
+
+  </body>
+</html>
