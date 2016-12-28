@@ -16,8 +16,8 @@
       </div><!-- /.container-fluid -->
     </nav>
     <h1 class="quiz_title">{{quiz["title"]}}</h1>
-    <p>Permanent quiz link: <a href="http://localhost:8888/quiz?quiz-id={{id}}">http://localhost:8888/quiz?quiz-id={{id}}</a></p>
-    <form action="http://localhost:8888/checkanswer?quiz-id={{id}}" method=post>
+    <p>Permanent quiz link: <a href="https://quizapp.herokuapp.com/quiz?quiz-id={{id}}">https://quizapp.herokuapp.com/quiz?quiz-id={{id}}</a></p>
+    <form action="https://quizapp.herokuapp.com/checkanswer?quiz-id={{id}}" method=post>
       <div class="multiple_choice">
         <!--Beginning of multiple choice questions-->
         {% try %}

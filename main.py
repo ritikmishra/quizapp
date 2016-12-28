@@ -2,11 +2,15 @@ import tornado.ioloop
 import tornado.web
 import tornado.template as template
 import json
+import os
 import random
 from shortanswer import paramsfromrequest
 from shortanswer import stringtojson
 from shortanswer import Answer
-port = 8888
+try:
+    port = os.environ['PORT']
+except KeyError:
+    port = 8888
 
 with open("./quizzes.json", "r+") as quizjsonfile:
     quizjson = json.load(quizjsonfile)
@@ -76,8 +80,6 @@ class MakeQuiz(tornado.web.RequestHandler):
         if not seentitle:
             self.write("Your quiz has no title, so we did not upload it to our server. ")
 
-
-
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
@@ -90,15 +92,19 @@ class SecondaryHandler(tornado.web.RequestHandler):
         except KeyError:
             self.write("That quiz was not found.")
 
+class RedirToExample(tornado.web.RequestHandler):
+    def get(self):
+        self.redirect("")
 def make_app():
     return tornado.web.Application([
         (r"/checkanswer", AnswerHandler),
         (r"/quiz", SecondaryHandler),
         (r"/upload", MakeQuiz),
+        (r"/", RedirToExample),
     ])
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(8888)
+    app.listen(port)
     print("\n\n\nListening on port " + str(port))
     tornado.ioloop.IOLoop.current().start()
