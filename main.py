@@ -94,7 +94,7 @@ class SecondaryHandler(tornado.web.RequestHandler):
 
 class RedirToExample(tornado.web.RequestHandler):
     def get(self):
-        self.redirect("")
+        self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=example",permanent=True)
 def make_app():
     return tornado.web.Application([
         (r"/checkanswer", AnswerHandler),
