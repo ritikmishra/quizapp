@@ -41,6 +41,14 @@ class Answer:
         self.sa_answers = sa_answers
         self.mc_user_answers = mc_user_answers
         self.mc_question_answers = mc_question_answers
+        try:
+            test = nltk.word_tokenize("Test sentence")
+        except LookupError:
+            nltk.download("punkt")
+        try:
+            test = stopwords.words('english')
+        except LookupError:
+            nltk.download("stopwords")
         #tokenize the answer
     def mc_check(self):
         result = {}
