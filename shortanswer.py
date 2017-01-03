@@ -51,16 +51,20 @@ class Answer:
             nltk.download("stopwords")
         #tokenize the answer
     def mc_check(self):
-        if self.mc_user_answers == None:
-            return None
-        else:
-            result = {}
-            for q_num, user_ans in enumerate(self.mc_user_answers):
-                if user_ans == self.mc_question_answers[q_num]:
-                    result[q_num] = [user_ans, True]
-                else:
-                    result[q_num] = [user_ans, False]
-            return result
+        corrected = {}
+        #corrected is a dict of lists.
+        #corrected has the structure of
+        # {qnum: [user_ans, True/False, correct_ans], qnum: [user_ans, True/False, correct_ans], . . .}
+        for key, value in list(self.mc_user_answers.items()):
+            key = int(key)
+            corrected[key] = [value]
+            if value == self.mc_question_answers[key]:
+                corrected[key].append(True)
+            else:
+                corrected[key].append(False)
+            corrected[key].append(self.mc_question_answers[key])
+        return corrected
+
 
     def normalize(self, tokens):
         normalized_tokens = []
@@ -72,22 +76,23 @@ class Answer:
     def sa_check(self):
         try:
             for x, keylist in enumerate(self.keywords):
-                #keylist is list
+                # We remove all stopwords from the keywords list
                 self.keywords[x] = self.normalize(keylist)
+
             self.percent_correct = {}
             # print(self.keywords)
-            for q_num, u_ans in enumerate(self.sa_answers):
-                # print(u_ans)
-                self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans))
-                self.num_of_words_in_ans = len(self.u_ans_words)
-                self.num_of_words_in_both = 0
-                for keyword in self.keywords[q_num]:
-                    for word in self.u_ans_words:
-                        # print(keyword)
-                        if word.lower() == keyword:
-                            self.num_of_words_in_both += 1
-                #end of checking for keywords in user answer
-            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100]
+            for q_num, u_ans in list(self.sa_answers.items()):
+                if u_ans != '':
+                    self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
+                    self.num_of_words_in_ans = len(self.u_ans_words)
+                    self.num_of_words_in_both = 0
+                    for keyword in self.keywords[q_num]:
+                        for word in self.u_ans_words:
+                            # print(keyword)
+                            if word.lower() == keyword:
+                                self.num_of_words_in_both += 1
+                    #end of checking for keywords in user answer
+                    self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
             return self.percent_correct
         except ZeroDivisionError:
             return None

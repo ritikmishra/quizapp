@@ -34,21 +34,16 @@ class AnswerHandler(tornado.web.RequestHandler):
         print("Answer Check Params \n #############################")
         print(self.params)
     def post(self):
-        user_mc_ans = []
+        user_mc_ans = {}
         q_mc_ans = []
         q_sa_keywords = []
-        user_sa_ans = []
+        user_sa_ans = {}
         for key, value in list(self.params.items()):
             if key != 'quiz-id':
                 if key[0:2] == 'mc':
-                    user_mc_ans.append(value)
+                    user_mc_ans[key[2:]] = value
                 elif key[0:2] == 'sa':
-                    user_sa_ans.append(value)
-        if user_mc_ans == [] or user_mc_ans == ['']:
-            user_mc_ans = None
-        if user_sa_ans == [] or user_sa_ans == ['']:
-            user_sa_ans == None
-        print(user_sa_ans)
+                    user_sa_ans[key[2:]] = value
         try:
             for question in list(quizjson[self.params["quiz-id"]]['multiple_choice']):
                 q_mc_ans.append(question["answer"])
@@ -60,7 +55,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         except KeyError:
             q_sa_keywords = None
         self.checkans = Answer(q_sa_keywords, user_sa_ans, user_mc_ans, q_mc_ans)
-        # print(user_mc_ans)
+        print(user_sa_ans)
         # print(q_mc_ans)
         self.checked_mc = self.checkans.mc_check()
         self.checked_sa = self.checkans.sa_check()
