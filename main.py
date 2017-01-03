@@ -18,7 +18,8 @@ with open("./quiztemplate.html", "r+") as quiztemplatefile:
     quiztemplate = template.Template(quiztemplatefile.read())
 with open("./answertemplate.html", "r+") as quiztemplatefile:
     answertemplate = template.Template(quiztemplatefile.read())
-
+with open("./mainpagetemplate.html", "r+") as quiztemplatefile:
+    mainpagetemplate = template.Template(quiztemplatefile.read())
 
 
 
@@ -92,15 +93,16 @@ class SecondaryHandler(tornado.web.RequestHandler):
         except KeyError:
             self.write("That quiz was not found.")
 
-class RedirToExample(tornado.web.RequestHandler):
+class MainPageHandler(tornado.web.RequestHandler):
     def get(self):
-        self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=example",permanent=True)
+        self.write(mainpagetemplate.generate(quizzes=quizjson))
+        
 def make_app():
     return tornado.web.Application([
         (r"/checkanswer", AnswerHandler),
         (r"/quiz", SecondaryHandler),
         (r"/upload", MakeQuiz),
-        (r"/", RedirToExample),
+        (r"/", MainPageHandler),
     ])
 
 if __name__ == "__main__":
