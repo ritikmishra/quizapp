@@ -91,7 +91,7 @@ class MakeQuiz(tornado.web.RequestHandler):
                 print(self.quizdata)
                 quizjson[self.quizid] = self.quizdata
                 with open("./quizzes.json", "r+") as quizjsonfile:
-                    json.dump(quizjson, quizjsonfile, sort_keys=True, indent=4, separators=(',', ': '))
+                    json.dump(quizjson, quizjsonfile, indent=4, separators=(',', ': '))
                 self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
             elif not seentitle:
                 self.write("Your quiz has no title, so we did not upload it to our server. ")
