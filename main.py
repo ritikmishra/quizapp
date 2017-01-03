@@ -75,8 +75,6 @@ class MakeQuiz(tornado.web.RequestHandler):
             print("Value: ",value)
 
         self.quizdata = stringtojson(self.params["quiz"])
-    def get(self):
-        self.write()
     def post(self):
         self.quizname = random.randrange(0, 999999999999)
         print(self.quizdata)
