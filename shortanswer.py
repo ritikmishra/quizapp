@@ -94,5 +94,5 @@ class Answer:
                     #end of checking for keywords in user answer
                     self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
             return self.percent_correct
-        except ZeroDivisionError:
+        except:
             return None
