@@ -74,6 +74,9 @@ class Answer:
         return normalized_tokens
 
     def sa_check(self):
+        print("Checking SA \n ########################")
+        print("Keywords:", self.keywords)
+        print("Answers:", self.answers)
         if self.keywords != None and self.sa_answers != None:
             try:
                 for x, keylist in enumerate(self.keywords):
@@ -97,7 +100,7 @@ class Answer:
                             self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100] # calculate percentage accuracy
                 return self.percent_correct
             except TypeError:
-                return None
+                raise
 
         else:
             return None
