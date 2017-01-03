@@ -21,6 +21,7 @@
       <h1>All the quizzes</h1>
       <p>To search for a quiz by title, use Ctrl+F or ⌘+F.</p>
       <p>To search for quiz by quiz ID, go to <a href="https://codebreakquizapp.herokuapp.com/quiz">this page</a></p>
+      <p>To create a quiz, please see <a href="https://github.com/ritikmishra/quizapp/wiki/Creating-a-quiz">this wiki page on our Github repository.</a> As of now, there is no UI for creating a quiz</p>
       {% for quizid, quiz in list(quizzes.items()) %}
         <div class="quizlisting">
             <h2>{{ quiz['title'] }}</h2>
