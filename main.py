@@ -41,6 +41,9 @@ class AnswerHandler(tornado.web.RequestHandler):
         print("Answer Check Params \n #############################")
         print(self.params)
     def post(self):
+        with open("./quizzes.json", "r+") as quizjsonfile:
+            quizjson = json.load(quizjsonfile)
+            quizjsonfile.close()
         user_mc_ans = {}
         q_mc_ans = []
         q_sa_keywords = []
@@ -124,6 +127,9 @@ class MainPageRedirHandler(tornado.web.RequestHandler):
         self.redirect("/home", permanent=True)
 class MainPageHandler(tornado.web.RequestHandler):
     def get(self):
+        with open("./quizzes.json", "r+") as quizjsonfile:
+            quizjson = json.load(quizjsonfile)
+            quizjsonfile.close()
         self.write(mainpagetemplate.generate(quizzes=quizjson))
 
 def make_app():
