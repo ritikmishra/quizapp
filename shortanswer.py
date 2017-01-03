@@ -74,25 +74,22 @@ class Answer:
         return normalized_tokens
 
     def sa_check(self):
-        try:
-            for x, keylist in enumerate(self.keywords):
-                # We remove all stopwords from the keywords list
-                self.keywords[x] = self.normalize(keylist)
+        # try:
+        for x, keylist in enumerate(self.keywords):
+            # We remove all stopwords from the keywords list
+            self.keywords[x] = self.normalize(keylist)
+        self.percent_correct = {}
+        # print(self.keywords)
 
-            self.percent_correct = {}
-            # print(self.keywords)
-            for q_num, u_ans in list(self.sa_answers.items()):
-                if u_ans != '':
-                    self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
-                    self.num_of_words_in_ans = len(self.u_ans_words)
-                    self.num_of_words_in_both = 0
-                    for keyword in self.keywords[q_num]:
-                        for word in self.u_ans_words:
-                            # print(keyword)
-                            if word.lower() == keyword:
-                                self.num_of_words_in_both += 1
-                    #end of checking for keywords in user answer
-                    self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
-            return self.percent_correct
-        except:
-            return None
+        for q_num, u_ans in list(self.sa_answers.items()):
+            if u_ans != '':
+                self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
+                self.num_of_words_in_ans = len(self.u_ans_words)
+                self.num_of_words_in_both = 0
+                for keyword in self.keywords[q_num]:
+                    for word in self.u_ans_words:
+                        if word.lower() == keyword.lower():
+                            self.num_of_words_in_both += 1
+                #end of checking for keywords in user answer
+                self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
+        return self.percent_correct
