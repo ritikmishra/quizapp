@@ -20,31 +20,34 @@
     <div class="col-md-6">
       <h1 class="quiz_title">{{quiz["title"]}}</h1>
       <p>Permanent quiz link: <a href="https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{id}}">https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{id}}</a></p>
-          <h2>Multiple Choice Questions</h2>
-          {% for qnum, mc_answer in list(mc_answers.items()) %}
-            <div class="answer-set">
-            <p style="bold">Question {{qnum + 1}}: {{quiz['multiple_choice'][qnum]['text']}}</p>
-            <p>You picked <b>{{mc_answer[0]}}</b> as your answer</p>
-            {% if mc_answer[1] %}
-              <p>That answer was <b>correct</b>.</p>
-            {% else %}
-              <p>That answer was <b style="font-weight: bold;">incorrect</b>.</p>
-              <p>The correct answer was <b>{{quiz['multiple_choice'][qnum]['answer']}}</b></p>
+          {% if mc_answers != None %}
+            <h2>Multiple Choice Questions</h2>
+            {% for qnum, mc_answer in list(mc_answers.items()) %}
+              <div class="answer-set">
+              <p style="bold">Question {{qnum + 1}}: {{quiz['multiple_choice'][qnum]['text']}}</p>
+              <p>You picked <b>{{mc_answer[0]}}</b> as your answer</p>
+              {% if mc_answer[1] %}
+                <p>That answer was <b>correct</b>.</p>
+              {% else %}
+                <p>That answer was <b style="font-weight: bold;">incorrect</b>.</p>
+                <p>The correct answer was <b>{{quiz['multiple_choice'][qnum]['answer']}}</b></p>
+              {% end %}
+              </div>
             {% end %}
-            </div>
           {% end %}
 
+          {% if sa_answers != None %}
+            <h2>Short Answer Questions</h2>
+            {% for qnum, sa_answer in list(sa_answers.items()) %}
+              <div class="answer-set">
+              <p style="bold">Question {{qnum + 1}}: {{quiz['short_answer'][qnum]['text']}}</p>
+              <p>You picked <b>{{sa_answer[0]}}</b> as your answer</p>
 
-          <h2>Short Answer Questions</h2>
-          {% for qnum, sa_answer in list(sa_answers.items()) %}
-            <div class="answer-set">
-            <p style="bold">Question {{qnum + 1}}: {{quiz['short_answer'][qnum]['text']}}</p>
-            <p>You picked <b>{{sa_answer[0]}}</b> as your answer</p>
+              <p>That answer was estimated to be <b>{{sa_answer[1]}}% correct</b>.</p>
+              <p>Words in a completely correct answer would include <b>{{quiz['short_answer'][qnum]['keywords']}}</b></p>
 
-            <p>That answer was estimated to be <b>{{sa_answer[1]}}% correct</b>.</p>
-            <p>Words in a completely correct answer would include <b>{{quiz['short_answer'][qnum]['keywords']}}</b></p>
-
-            </div>
+              </div>
+            {% end %}
           {% end %}
     </div>
     <div class="col-md-3"></div>
