@@ -51,7 +51,7 @@ class Answer:
             nltk.download("stopwords")
         #tokenize the answer
     def mc_check(self):
-        if mc_user_answers == None:
+        if self.mc_user_answers == None:
             return None
         else:
             result = {}
