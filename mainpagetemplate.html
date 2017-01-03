@@ -24,6 +24,7 @@
       {% for quizid, quiz in list(quizzes.items()) %}
         <div class="quizlisting">
             <h2>{{ quiz['title'] }}</h2>
+            <p>Quiz ID: {{quizid}}</p>
             <p>Permanent quiz link: <a href="https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{quizid}}">https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{quizid}}</a></p>
             {% try %}
               <p>{{len(quiz['multiple_choice'])}} multiple choice questions</p>
