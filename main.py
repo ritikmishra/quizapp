@@ -114,6 +114,7 @@ def make_app():
         (r"/quiz", SecondaryHandler),
         (r"/upload", MakeQuiz),
         (r"/", MainPageHandler),
+        (r"/home", MainPageHandler),
     ])
 
 if __name__ == "__main__":
