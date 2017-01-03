@@ -102,6 +102,7 @@ class MakeQuiz(tornado.web.RequestHandler):
             for e in list(err.args):
                 self.responsestr = self.responsestr + " " + e + "\n"
             self.write(self.responsestr)
+            raise
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)

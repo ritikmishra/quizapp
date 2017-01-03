@@ -91,9 +91,13 @@ class Answer:
                                 if word.lower() == keyword.lower():
                                     self.num_of_words_in_both += 1
                         #end of checking for keywords in user answer
-                        self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
+                        try:
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
+                        except ZeroDivisionError:
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100] # calculate percentage accuracy
                 return self.percent_correct
             except TypeError:
                 return None
+
         else:
             return None
