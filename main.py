@@ -65,32 +65,36 @@ class AnswerHandler(tornado.web.RequestHandler):
         print("Multiple Choice questions \n ###############################")
         print(self.checked_mc)
         self.write(answertemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
-
 class MakeQuiz(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
 
-        for key, value in list(self.params.items()):
-            print("Arg: ",key)
-            print("Value: ",value)
-
-        self.quizdata = stringtojson(self.params["quiz"])
     def post(self):
-        self.quizname = random.randrange(0, 999999999999)
-        print(self.quizdata)
-        seentitle = False
-        for key, value in list(self.quizdata.items()):
-            print(key)
-            if key == "title":
-                seentitle = True
-                quizjson[self.quizname] = self.quizdata
-                print(self.quizname)
+        try:
+            self.quizdata = stringtojson(self.params["quiz"])
+            self.quizid = random.randrange(0, 999999999999)
+            seentitle = False
+            for key, value in list(self.quizdata.items()):
+                #check if there is a quiz title
+                print(key)
+                if key == "title":
+                    seentitle = True
+            if seentitle:
+                print("New quiz uploaded: " + str(self.quizid) + " \n ###############")
+                print(self.quizdata)
+                quizjson[self.quizid] = self.quizdata
                 with open("./quizzes.json", "w") as quizjsonfile:
-                    print(quizjson)
                     quizjsonfile.write(json.dumps(quizjson, indent=4, separators=(',', ': ')))
-                self.write(quiztemplate.generate(quiz=quizjson[self.quizname],id=self.quizname))
-        if not seentitle:
-            self.write("Your quiz has no title, so we did not upload it to our server. ")
+                self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
+            elif not seentitle:
+                self.write("Your quiz has no title, so we did not upload it to our server. ")
+        except KeyError:
+            self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
+        except Exception as err:
+            self.responsestr = "We were unable to process your request. Here are the error details:"
+            for e in list(err.args):
+                self.responsestr = self.responsestr + " " + e + "\n"
+            self.write(self.responsestr)
 
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
