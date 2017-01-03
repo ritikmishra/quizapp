@@ -103,7 +103,9 @@ class SecondaryHandler(tornado.web.RequestHandler):
                 self.write(quiztemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
             except KeyError:
                 self.write(quiznotfoundtemplate.generate())
-
+class MainPageRedirHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.redirect("/home", permanent=True)
 class MainPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(mainpagetemplate.generate(quizzes=quizjson))
@@ -113,7 +115,7 @@ def make_app():
         (r"/checkanswer", AnswerHandler),
         (r"/quiz", SecondaryHandler),
         (r"/upload", MakeQuiz),
-        (r"/", MainPageHandler),
+        (r"/", MainPageRedirHandler),
         (r"/home", MainPageHandler),
     ])
 
