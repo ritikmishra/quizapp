@@ -76,7 +76,7 @@ class Answer:
     def sa_check(self):
         print("Checking SA \n ########################")
         print("Keywords:", self.keywords)
-        print("Answers:", self.answers)
+        print("Answers:", self.sa_answers)
         if self.keywords != None and self.sa_answers != None:
             try:
                 for x, keylist in enumerate(self.keywords):
