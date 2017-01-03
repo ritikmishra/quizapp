@@ -77,6 +77,7 @@ class MakeQuiz(tornado.web.RequestHandler):
         self.params = paramsfromrequest(self.request)
 
     def post(self):
+        global quizjson
         try:
             self.quizdata = stringtojson(self.params["quiz"])
             self.quizid = random.randrange(0, 999999999999)
@@ -90,19 +91,14 @@ class MakeQuiz(tornado.web.RequestHandler):
                 print("New quiz uploaded: " + str(self.quizid) + " \n ###############")
                 print(self.quizdata)
                 quizjson[self.quizid] = self.quizdata
-                with open("./quizzes.json", "r+") as quizjsonfile:
-                    json.dump(quizjson, quizjsonfile, indent=4, separators=(',', ': '))
+                with open("./quizzes.json", "w") as quizjsonfile:
+                    quizjsonfile.write(json.dumps(quizjson))
+                    quizjsonfile.close()
                 self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
             elif not seentitle:
                 self.write("Your quiz has no title, so we did not upload it to our server. ")
         except KeyError:
             self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
-        except Exception as err:
-            self.responsestr = "We were unable to process your request. Here are the error details:"
-            for e in list(err.args):
-                self.responsestr = self.responsestr + " " + e + "\n"
-            self.write(self.responsestr)
-            raise
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
@@ -113,6 +109,9 @@ class SecondaryHandler(tornado.web.RequestHandler):
 
         print(self.request.arguments)
     def get(self):
+        with open("./quizzes.json", "r+") as quizjsonfile:
+            quizjson = json.load(quizjsonfile)
+            quizjsonfile.close()
         if self.params['quiz-id'] == None:
             self.write(quizsearchtemplate.generate())
         else:
