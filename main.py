@@ -44,6 +44,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         with open("./quizzes.json", "r+") as quizjsonfile:
             quizjson = json.load(quizjsonfile)
             quizjsonfile.close()
+        print(quizjson)
         user_mc_ans = {}
         q_mc_ans = []
         q_sa_keywords = []
