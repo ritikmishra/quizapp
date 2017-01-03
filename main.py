@@ -12,18 +12,25 @@ try:
 except KeyError:
     port = 8888
 
+# get all the files into our variables
 with open("./quizzes.json", "r+") as quizjsonfile:
     quizjson = json.load(quizjsonfile)
+    quizjsonfile.close()
 with open("./quiztemplate.html", "r+") as quiztemplatefile:
     quiztemplate = template.Template(quiztemplatefile.read())
+    quiztemplatefile.close()
 with open("./answertemplate.html", "r+") as quiztemplatefile:
     answertemplate = template.Template(quiztemplatefile.read())
+    quiztemplatefile.close()
 with open("./mainpagetemplate.html", "r+") as quiztemplatefile:
     mainpagetemplate = template.Template(quiztemplatefile.read())
+    quiztemplatefile.close()
 with open("./quiznotfoundtemplate.html", "r+") as quiztemplatefile:
     quiznotfoundtemplate = template.Template(quiztemplatefile.read())
+    quiztemplatefile.close()
 with open("./quizidsearchtemplate.html", "r+") as quiztemplatefile:
     quizsearchtemplate = template.Template(quiztemplatefile.read())
+    quiztemplatefile.close()
 
 
 
@@ -83,8 +90,8 @@ class MakeQuiz(tornado.web.RequestHandler):
                 print("New quiz uploaded: " + str(self.quizid) + " \n ###############")
                 print(self.quizdata)
                 quizjson[self.quizid] = self.quizdata
-                with open("./quizzes.json", "w") as quizjsonfile:
-                    quizjsonfile.write(json.dumps(quizjson, indent=4, separators=(',', ': ')))
+                with open("./quizzes.json", "r+") as quizjsonfile:
+                    json.dump(quizjson, quizjsonfile, sort_keys=True, indent=4, separators=(',', ': '))
                 self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
             elif not seentitle:
                 self.write("Your quiz has no title, so we did not upload it to our server. ")
