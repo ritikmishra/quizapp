@@ -1,0 +1,34 @@
+<html>
+  <head>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <style>
+      body { padding-top: 70px;
+             text-align: center;}
+      </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+    <h1 class="quiz_title">Search for a quiz</h1>
+    <input type="text" name="quizid" id="quizid" class="quizid" placeholder="Type in the quiz id!" 0></input>
+    <button class="btn btn-primary" onclick="search()">Search</button>
+    <script>
+    var search = function(){
+      var quizid = document.getElementById('quizid').value
+      window.location = "https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + quizid.toString();
+    }
+    document.getElementById('quizid').onkeypress = function(event) {
+      console.log(event.keyCode)
+      if (event.keyCode == 13) {
+          search()
+      }
+    }
+    </script>
+  </body>
+</html>

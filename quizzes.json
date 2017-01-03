@@ -123,6 +123,5 @@
             }
         ],
         "title": "Test"
-    },
-    "_comment": "Every object under this item will be its own quiz."
+    }
 }

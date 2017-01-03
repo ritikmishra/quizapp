@@ -20,6 +20,11 @@ with open("./answertemplate.html", "r+") as quiztemplatefile:
     answertemplate = template.Template(quiztemplatefile.read())
 with open("./mainpagetemplate.html", "r+") as quiztemplatefile:
     mainpagetemplate = template.Template(quiztemplatefile.read())
+with open("./quiznotfoundtemplate.html", "r+") as quiztemplatefile:
+    quiznotfoundtemplate = template.Template(quiztemplatefile.read())
+with open("./quizidsearchtemplate.html", "r+") as quiztemplatefile:
+    quizsearchtemplate = template.Template(quiztemplatefile.read())
+
 
 
 
@@ -84,19 +89,25 @@ class MakeQuiz(tornado.web.RequestHandler):
 class SecondaryHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
-        print(self.request.arguments)
-
-    def get(self):
         try:
             print(self.params["quiz-id"])
-            self.write(quiztemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
         except KeyError:
-            self.write("That quiz was not found.")
+            self.params['quiz-id'] = None
+
+        print(self.request.arguments)
+    def get(self):
+        if self.params['quiz-id'] == None:
+            self.write(quizsearchtemplate.generate())
+        else:
+            try:
+                self.write(quiztemplate.generate(quiz=quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
+            except KeyError:
+                self.write(quiznotfoundtemplate.generate())
 
 class MainPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.write(mainpagetemplate.generate(quizzes=quizjson))
-        
+
 def make_app():
     return tornado.web.Application([
         (r"/checkanswer", AnswerHandler),
