@@ -41,9 +41,9 @@ class AnswerHandler(tornado.web.RequestHandler):
         for key, value in list(self.params.items()):
             if key != 'quiz-id':
                 if key[0:2] == 'mc':
-                    user_mc_ans[key[2:]] = value
+                    user_mc_ans[int(key[2:])] = value
                 elif key[0:2] == 'sa':
-                    user_sa_ans[key[2:]] = value
+                    user_sa_ans[int(key[2:])] = value
         try:
             for question in list(quizjson[self.params["quiz-id"]]['multiple_choice']):
                 q_mc_ans.append(question["answer"])
