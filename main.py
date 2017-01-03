@@ -31,6 +31,8 @@ with open("./quizidsearchtemplate.html", "r+") as quiztemplatefile:
 class AnswerHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
+        print("Answer Check Params \n #############################")
+        print(self.params)
     def post(self):
         user_mc_ans = []
         q_mc_ans = []
@@ -42,10 +44,11 @@ class AnswerHandler(tornado.web.RequestHandler):
                     user_mc_ans.append(value)
                 elif key[0:2] == 'sa':
                     user_sa_ans.append(value)
-        if user_mc_ans == []:
+        if user_mc_ans == [] or user_mc_ans == ['']:
             user_mc_ans = None
-        if user_sa_ans == []:
+        if user_sa_ans == [] or user_sa_ans == ['']:
             user_sa_ans == None
+        print(user_sa_ans)
         try:
             for question in list(quizjson[self.params["quiz-id"]]['multiple_choice']):
                 q_mc_ans.append(question["answer"])
@@ -61,6 +64,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         # print(q_mc_ans)
         self.checked_mc = self.checkans.mc_check()
         self.checked_sa = self.checkans.sa_check()
+
         print("Short Answer questions \n ###############################")
         print(self.checked_sa)
         print("Multiple Choice questions \n ###############################")

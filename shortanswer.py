@@ -56,9 +56,6 @@ class Answer:
         else:
             result = {}
             for q_num, user_ans in enumerate(self.mc_user_answers):
-                for question_ans in self.mc_question_answers:
-                    print(user_ans)
-                    print(question_ans)
                 if user_ans == self.mc_question_answers[q_num]:
                     result[q_num] = [user_ans, True]
                 else:
@@ -73,9 +70,7 @@ class Answer:
         return normalized_tokens
 
     def sa_check(self):
-        if self.sa_answers == None:
-            return None
-        else:
+        try:
             for x, keylist in enumerate(self.keywords):
                 #keylist is list
                 self.keywords[x] = self.normalize(keylist)
@@ -94,3 +89,5 @@ class Answer:
                 #end of checking for keywords in user answer
             self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100]
             return self.percent_correct
+        except ZeroDivisionError:
+            return None
