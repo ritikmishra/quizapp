@@ -25,7 +25,7 @@ except KeyError:
 
 # Move webpage templates into variables so we may serve them later
 with open("./quizzes.json", "r+") as quizjsonfile:
-    quizjson = json.load(quizjsonfile)
+    quizjson = json.load(quizjsonfile)['quizzes']
     quizjsonfile.close()
 with open("./quiztemplate.html", "r+") as quiztemplatefile:
     quiztemplate = template.Template(quiztemplatefile.read())
