@@ -1,63 +1,5 @@
 {
-    "274190681597": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "yes",
-                    "no"
-                ],
-                "text": "Microphone?"
-            }
-        ],
-        "title": "Test"
-    },
-    "62611068102": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "Well enough",
-                    "yes",
-                    "barely",
-                    "why is there a submit button that does nothing",
-                    "no"
-                ],
-                "text": "Is this working?"
-            }
-        ],
-        "title": "<marquee>test</marquee>"
-    },
-    "7845322370": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "yes",
-                    "no"
-                ],
-                "text": "Microphone?"
-            }
-        ],
-        "title": "Test"
-    },
-    "256975242301": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "Well enough",
-                    "yes",
-                    "barely",
-                    "why is there a submit button that does nothing",
-                    "no"
-                ],
-                "text": "Is this working?"
-            }
-        ],
-        "title": "Test"
-    },
-    "example": {
+    "test": {
         "multiple_choice": [
             {
                 "answer": "Yes",
@@ -74,7 +16,7 @@
                     "False",
                     "True"
                 ],
-                "text": "What is microphone?"
+                "text": "Pick the answer that best describes a microphone"
             }
         ],
         "short_answer": [
@@ -90,38 +32,11 @@
                     "answer",
                     "bubbles",
                     "checkbox",
-                    "textbox"
+                    "textbox",
                 ],
-                "answer": "Yes",
                 "text": "Is quiz a mutliple choice quiz?"
             }
         ],
-        "title": "My First Quiz"
+        "title": "Test Quiz"
     },
-    "564804163038": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "yes",
-                    "no"
-                ],
-                "text": "Microphone?"
-            }
-        ],
-        "title": "Test"
-    },
-    "538123502710": {
-        "multiple_choice": [
-            {
-                "answer": "yes",
-                "options": [
-                    "yes",
-                    "no"
-                ],
-                "text": "Microphone?"
-            }
-        ],
-        "title": "Test"
-    }
 }

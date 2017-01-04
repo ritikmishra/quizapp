@@ -1,18 +1,29 @@
+# Import the tornado module, that allows us to run a webserver
+# Tornado was written by Friendfeed, and development is continued by
 import tornado.ioloop
 import tornado.web
 import tornado.template as template
+# Import the JSON library to handle quizzes.json
+# This library was written by
 import json
+# Import the os library to check for environment variables
+# This library was written by
 import os
+# Import the random library to assign a unique quiz ID to newly uploaded quizzes
+# This library was written by
 import random
-from shortanswer import paramsfromrequest
-from shortanswer import stringtojson
-from shortanswer import Answer
+# Import the algorithms moved to algorithms.py to free up space in this file
+from algorithms import paramsfromrequest
+from algorithms import stringtojson
+from algorithms import Answer
+
+# Check to see if the machine has a preferred port for checking the server
 try:
     port = os.environ['PORT']
 except KeyError:
     port = 8888
 
-# get all the files into our variables
+# Move webpage templates into variables so we may serve them later
 with open("./quizzes.json", "r+") as quizjsonfile:
     quizjson = json.load(quizjsonfile)
     quizjsonfile.close()
@@ -36,35 +47,49 @@ with open("./quizidsearchtemplate.html", "r+") as quiztemplatefile:
 
 
 class AnswerHandler(tornado.web.RequestHandler):
+    """
+    This handler handles requests to the /checkanswer path. This allows the user to check the answer on their quiz.
+    """
     def prepare(self):
+        """
+        Prepare for handling the request
+        """
         self.params = paramsfromrequest(self.request)
-        print("Answer Check Params \n #############################")
-        print(self.params)
         with open("./quizzes.json", "r+") as quizjsonfile:
             self.quizjson = json.load(quizjsonfile)
             quizjsonfile.close()
         print(self.quizjson)
     def post(self):
+        """Handle a post request made to /checkanswer"""
+
+        # Prepare variables
         self.user_mc_ans = {}
         self.q_mc_ans = []
         self.q_sa_keywords = []
         self.user_sa_ans = {}
+
+        # Go through the sent data
         for key, value in list(self.params.items()):
             if key != 'quiz-id':
+                # Add multiple choice answers (indicated with the first 2 letters of 'mc') to self.user_mc_ans
                 if key[0:2] == 'mc':
                     self.user_mc_ans[int(key[2:])] = value
+                # Add written answers (indicated with the first 2 letters of 'sa') to self.user_sa_ans
                 elif key[0:2] == 'sa':
                     self.user_sa_ans[int(key[2:])] = value
+        # We use
         try:
             for question in list(self.quizjson[self.params["quiz-id"]]['multiple_choice']):
                 self.q_mc_ans.append(question["answer"])
         except KeyError:
             self.q_mc_ans = None
+
         try:
             for question in list(self.quizjson[self.params["quiz-id"]]['short_answer']):
                 self.q_sa_keywords.append(question["keywords"])
         except KeyError:
             self.q_sa_keywords = None
+
         self.checkans = Answer(self.q_sa_keywords, self.user_sa_ans, self.user_mc_ans, self.q_mc_ans)
         print(self.user_sa_ans)
         # print(q_mc_ans)
@@ -76,7 +101,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         print("Multiple Choice questions \n ###############################")
         print(self.checked_mc)
         self.write(answertemplate.generate(quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
-class MakeQuiz(tornado.web.RequestHandler):
+class NewQuizHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
         with open("./quizzes.json", "r+") as quizjsonfile:
@@ -105,7 +130,7 @@ class MakeQuiz(tornado.web.RequestHandler):
                 self.write("Your quiz has no title, so we did not upload it to our server. ")
         except KeyError:
             self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
-class SecondaryHandler(tornado.web.RequestHandler):
+class QuizHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
         try:
@@ -138,14 +163,17 @@ class MainPageHandler(tornado.web.RequestHandler):
         self.write(mainpagetemplate.generate(quizzes=self.quizjson))
 
 def make_app():
+    """Assign each handler to the path that they handle"""
     return tornado.web.Application([
         (r"/checkanswer", AnswerHandler),
-        (r"/quiz", SecondaryHandler),
-        (r"/upload", MakeQuiz),
+        (r"/quiz", QuizHandler),
+        (r"/upload", NewQuizHandler),
         (r"/", MainPageRedirHandler),
         (r"/home", MainPageHandler),
     ])
 
+# Check if this is being imported as a module. If not, then start the server
+# The following code is from the tutorial on how to use Tornado, found at http://www.tornadoweb.org/en/stable/
 if __name__ == "__main__":
     app = make_app()
     app.listen(port)
