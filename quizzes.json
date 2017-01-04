@@ -1,4 +1,4 @@
-"quizzes": {
+{
     "test": {
         "multiple_choice": [
             {
@@ -38,5 +38,5 @@
             }
         ],
         "title": "Test Quiz"
-    },
+    }
 }
