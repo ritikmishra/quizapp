@@ -63,7 +63,7 @@ class Answer:
         # self.corrected is a dict of lists.
         # Each list will contain the following items in the specified order:
         # What the user picked(string), if they got it right(bool), what the correct answer was(string)
-        self.self.corrected = {}
+        self.corrected = {}
 
         # If self.mc_user_answers is None, then an AttributeError will be thrown
         # We catch the error so that having multiple choice questions in a quiz will not be necessary
