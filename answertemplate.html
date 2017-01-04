@@ -50,7 +50,7 @@
               <p>You picked <b>{{sa_answer[0]}}</b> as your answer</p>
 
               <p>That answer was estimated to be <b>{{sa_answer[1]}}% correct</b>.</p>
-              <p>Words in a completely correct answer would include <b>{{quiz['short_answer'][qnum]['keywords']}}</b></p>
+              <p>Words in a completely correct answer would include <b>{{quiz['short_answer'][qnum]['keywords'].join(" ")}}</b></p>
 
               </div>
             {% end %}
