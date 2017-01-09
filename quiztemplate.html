@@ -11,13 +11,13 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="https://codebreakquizapp.herokuapp.com/" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
+          <a class="navbar-brand" href="{{url}}/" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
         </div>
       </div><!-- /.container-fluid -->
     </nav>
     <h1 class="quiz_title">{{quiz["title"]}}</h1>
-    <p>Permanent quiz link: <a href="https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{id}}">https://codebreakquizapp.herokuapp.com/quiz?quiz-id={{id}}</a></p>
-    <form action="https://codebreakquizapp.herokuapp.com/checkanswer?quiz-id={{id}}" method=post>
+    <p>Permanent quiz link: <a href="{{url}}/quiz?quiz-id={{id}}">{{url}}/quiz?quiz-id={{id}}</a></p>
+    <form action="{{url}}/checkanswer?quiz-id={{id}}" method=post>
       <div class="multiple_choice">
         <!--Beginning of multiple choice questions-->
         {% try %}

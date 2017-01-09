@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="https://codebreakquizapp.herokuapp.com/" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
+          <a class="navbar-brand" href="{{url}}/" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
         </div>
       </div><!-- /.container-fluid -->
     </nav>
@@ -21,7 +21,7 @@
     <script>
     var search = function(){
       var quizid = document.getElementById('quizid').value
-      window.location = "https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + quizid.toString();
+      window.location = "{{url}}/quiz?quiz-id=" + quizid.toString();
     }
     document.getElementById('quizid').onkeypress = function(event) {
       console.log(event.keyCode)

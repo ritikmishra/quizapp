@@ -23,6 +23,11 @@ try:
 except KeyError:
     port = 8888
 
+try:
+    url = os.environ['URL']
+except KeyError:
+    url = "http://localhost:" + str(port)
+
 # Move webpage templates into variables so we may serve them later
 with open("./quizzes.json", "r+") as quizjsonfile:
     quizjson = json.load(quizjsonfile)
@@ -100,7 +105,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         print(self.checked_sa)
         print("Multiple Choice questions \n ###############################")
         print(self.checked_mc)
-        self.write(answertemplate.generate(quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
+        self.write(answertemplate.generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
 class NewQuizHandler(tornado.web.RequestHandler):
     def prepare(self):
         self.params = paramsfromrequest(self.request)
@@ -145,12 +150,12 @@ class QuizHandler(tornado.web.RequestHandler):
             print(self.quizjson)
     def get(self):
         if self.params['quiz-id'] == None:
-            self.write(quizsearchtemplate.generate())
+            self.write(quizsearchtemplate.generate(url=url))
         else:
             try:
-                self.write(quiztemplate.generate(quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
+                self.write(quiztemplate.generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
             except KeyError:
-                self.write(quiznotfoundtemplate.generate())
+                self.write(quiznotfoundtemplate.generate(url=url))
 class MainPageRedirHandler(tornado.web.RequestHandler):
     def get(self):
         self.redirect("/home", permanent=True)
@@ -160,7 +165,7 @@ class MainPageHandler(tornado.web.RequestHandler):
             self.quizjson = json.load(quizjsonfile)
             quizjsonfile.close()
         print(self.quizjson)
-        self.write(mainpagetemplate.generate(quizzes=self.quizjson))
+        self.write(mainpagetemplate.generate(url=url,quizzes=self.quizjson))
 
 def make_app():
     """Assign each handler to the path that they handle"""
