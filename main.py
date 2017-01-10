@@ -38,6 +38,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         Prepare for handling the request
         """
         self.params = paramsfromrequest(self.request)
+        self.quizjson = importfile("./quizzes.json", isjson=True)
         print(self.quizjson)
     def post(self):
         """Handle a post request made to /checkanswer"""
