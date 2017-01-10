@@ -117,13 +117,11 @@ class NewQuizHandler(tornado.web.RequestHandler):
                     if key == "title":
                         self.seentitle = True
                 if self.seentitle:
-                    # Logging to asssist debugging
-                    print("New quiz uploaded: " + str(self.quizid) + " \n ###############")
-                    print(self.quizdata)
                     # Add new quiz to our dictionary for quizzes and write it to quizzes.json
                     self.quizjson[self.quizid] = self.quizdata
 
-                    with open("./quizzes.json", "w+") as quizjsonfile:
+                    with open("./quizzes.json", "w") as quizjsonfile:
+                        quizjsonfile.truncate()
                         json.dump(self.quizjson, quizjsonfile, ensure_ascii=True, indent=4, separators=(',', ': '))
                         quizjsonfile.close()
                     self.quizjson = importfile("./quizzes.json", isjson=True)
