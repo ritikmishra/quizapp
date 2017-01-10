@@ -122,9 +122,12 @@ class NewQuizHandler(tornado.web.RequestHandler):
                     print(self.quizdata)
                     # Add new quiz to our dictionary for quizzes and write it to quizzes.json
                     self.quizjson[self.quizid] = self.quizdata
-                    with open("./quizzes.json", "w") as quizjsonfile:
-                        json.dump(self.quizjson, quizjsonfile, ensure_ascii=False)
+
+                    with open("./quizzes.json", "w+") as quizjsonfile:
+                        json.dump(self.quizjson, quizjsonfile, ensure_ascii=True, indent=4, separators=(',', ': '))
                         quizjsonfile.close()
+                    self.quizjson = importfile("./quizzes.json", isjson=True)
+
                     # Send the user to their newly created quiz
                     self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
                 elif not self.seentitle:
