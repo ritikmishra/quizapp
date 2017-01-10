@@ -149,7 +149,6 @@ class QuizHandler(tornado.web.RequestHandler):
             self.params['quiz-id'] = None
         finally:
             print(self.request.arguments)
-            print(self.quizjson)
     def get(self):
         """
         Handle the request by sending the quiz page if it exists, a search page if no quiz ID was specified, and a 'Quiz not found' page if the quiz was not found
@@ -173,6 +172,7 @@ class MainPageHandler(tornado.web.RequestHandler):
     """
     def get(self):
         self.quizjson = importfile("./quizzes.json", isjson=True)
+        print(self.quizjson)
         self.write(templateloader.load("mainpagetemplate.html").generate(url=url,quizzes=self.quizjson))
 
 # All code below this point is from the tutorial on how to use Tornado or largely inspired by it
