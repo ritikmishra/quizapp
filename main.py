@@ -173,7 +173,6 @@ class MainPageHandler(tornado.web.RequestHandler):
     """
     def get(self):
         self.quizjson = importfile("./quizzes.json", isjson=True)
-        print(self.quizjson)
         self.write(templateloader.load("mainpagetemplate.html").generate(url=url,quizzes=self.quizjson))
 
 # All code below this point is from the tutorial on how to use Tornado or largely inspired by it
