@@ -25,13 +25,13 @@ except KeyError:
     url = "http://localhost:" + str(port)
 
 # Move webpage templates into variables so we may serve them later
-quizjson = importfile("./quizzes.json", json=True)
-quiztemplate = importfile("./quiztemplate.html", template=True)
-answertemplate = importfile("./answertemplate.html", template=True)
-mainpagetemplate = importfile("./mainpagetemplate.html", template=True)
-quiznotfoundtemplate = importfile("./quiznotfoundtemplate.html", template=True)
-quizsearchtemplate = importfile("./quizidsearchtemplate.html", template=True)
-basetemplate = importfile("./basetemplate.html", template=True)
+quizjson = importfile("./quizzes.json", isjson=True)
+quiztemplate = importfile("./quiztemplate.html", istemplate=True)
+answertemplate = importfile("./answertemplate.html", istemplate=True)
+mainpagetemplate = importfile("./mainpagetemplate.html", istemplate=True)
+quiznotfoundtemplate = importfile("./quiznotfoundtemplate.html", istemplate=True)
+quizsearchtemplate = importfile("./quizidsearchtemplate.html", istemplate=True)
+basetemplate = importfile("./basetemplate.html", istemplate=True)
 
 
 

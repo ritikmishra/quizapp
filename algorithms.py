@@ -10,7 +10,7 @@ import tornado.template as template
 import nltk
 from nltk.corpus import stopwords
 
-def importfile(filename, json=False, template=False):
+def importfile(filename, isjson=False, istemplate=False):
     with open(filename, "r+") as item:
         if json:
             return json.load(item)
