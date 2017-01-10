@@ -132,8 +132,6 @@ class NewQuizHandler(tornado.web.RequestHandler):
             except KeyError:
                 # Remind the user if we did not find a quiz
                 self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
-
-
 class QuizHandler(tornado.web.RequestHandler):
     """
     Handle requests to the /quiz path
@@ -143,12 +141,14 @@ class QuizHandler(tornado.web.RequestHandler):
         Prepare for handling the request by checking if there is a quiz-id parameter
         """
         self.params = paramsfromrequest(self.request)
+        self.quizjson = importfile("./quizzes.json", isjson=True)
         try:
             print(self.params["quiz-id"])
         except KeyError:
             self.params['quiz-id'] = None
         finally:
             print(self.request.arguments)
+            print(self.quizjson)
     def get(self):
         """
         Handle the request by sending the quiz page if it exists, a search page if no quiz ID was specified, and a 'Quiz not found' page if the quiz was not found
