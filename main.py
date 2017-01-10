@@ -184,7 +184,7 @@ def make_app():
         (r"/checkanswer", AnswerHandler),
         (r"/quiz", QuizHandler),
         (r"/upload", NewQuizHandler),
-        (r"/uploadUI", NewQuizFromPageHandler),
+        #(r"/uploadUI", NewQuizFromPageHandler),
         (r"/", MainPageRedirHandler),
         (r"/home", MainPageHandler),
     ])
