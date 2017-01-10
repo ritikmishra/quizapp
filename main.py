@@ -95,7 +95,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
         """
         self.params = paramsfromrequest(self.request)
         # Read quizzes.json
-        self.quizjson = importfile("./quizzes.json", json=True)
+        self.quizjson = importfile("./quizzes.json", isjson=True)
         print(self.quizjson)
         # Check if the request was sent from our UI or our
         try:
@@ -172,7 +172,7 @@ class MainPageHandler(tornado.web.RequestHandler):
     Generate a home page with all the quizzes to display to the user
     """
     def get(self):
-        self.quizjson = importfile("./quizzes.json", json=True)
+        self.quizjson = importfile("./quizzes.json", isjson=True)
         print(self.quizjson)
         self.write(templateloader.load("mainpagetemplate.html").generate(url=url,quizzes=self.quizjson))
 
