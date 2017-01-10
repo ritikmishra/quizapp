@@ -12,9 +12,9 @@ from nltk.corpus import stopwords
 
 def importfile(filename, isjson=False, istemplate=False):
     with open(filename, "r+") as item:
-        if json:
-            return json.loads(item.read())
-        elif template:
+        if isjson:
+            return json.load(item)
+        elif istemplate:
             return template.template(item.read())
         else:
             return item.read()
