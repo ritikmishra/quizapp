@@ -105,7 +105,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
             self.api = True
     def post(self):
         # Check if a post request was made directly to /upload or if the webpage was used
-        if api:
+        if self.api:
             # We want to catch the KeyError because a 500 Error message would be sent if the user does not upload the data under the correct parameter
             try:
                 # Assign the quiz an ID and check for a quiz title
