@@ -6,10 +6,19 @@ It defines the Answer class which has methods for seeing if an answer is correct
 Also has some other useful functions
 """
 import json
+import tornado.template as template
 import nltk
 from nltk.corpus import stopwords
 
-
+def importfile(filename, json=False, template=False):
+    with open(filename, "r+") as item:
+        if json:
+            return json.load(item)
+        elif template:
+            return template.template(item.read())
+        else:
+            return item.read()
+        item.close()
 def paramsfromrequest(request):
     """Changes the format of the HTTP request parameters so that they may be more easily used"""
     params = request.arguments

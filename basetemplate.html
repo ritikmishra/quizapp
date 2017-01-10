@@ -4,15 +4,17 @@
       <style>
       body { padding-top: 70px;
              text-align: center;}
-      div.question { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
+      {% block style %}
+      {% end %}
       </style>
       <script>
-      var postQuiz = function(){
-
-      }
+      {% block script %}
+      {% end %}
       </script>
   </head>
   <body>
+    {# The following nav element is from the bootstrap tutorial on navbars.  #}
+    {# It is found here: https://getbootstrap.com/components/#navbar  #}
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,19 +25,8 @@
     </nav>
     <div class="col-md-3"></div>
     <div class="col-md-6">
-
-
-      <div id="multiplechoice">
-      </div>
-      <button class="btn btn-primary">Add Multiple Choice Question</button>
-
-      <div id="shortanswer">
-      </div>
-      <button class="btn btn-primary">Add Short Answer Question</button>
-      <br  />
-
-      <button class="btn btn-primary">Submit!</button>
-
+      {% block content %}
+      {% end %}
     </div>
     <div class="col-md-3"></div>
 

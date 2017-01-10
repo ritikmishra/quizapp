@@ -1,50 +1,32 @@
-<html>
-  <head>
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-      <style>
-      body { padding-top: 70px;
-             text-align: center;}
-      div.quizlisting { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
-      </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="{{url}}/" style='margin-left: 50%; margin-right: 50%'>Quiz</a>
-        </div>
-      </div><!-- /.container-fluid -->
-    </nav>
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-      <h1>All the quizzes</h1>
-      <p>To search for a quiz by title, use Ctrl+F or ⌘+F.</p>
-      <p>To search for quiz by quiz ID, go to <a href="{{url}}/quiz">this page</a>, or use the aforementioned keyboard shortcut on this page.</p>
-      <p>To create a quiz, please see <a href="https://github.com/ritikmishra/quizapp/wiki/Creating-a-quiz">this wiki page on our Github repository.</a> As of now, there is no UI for creating a quiz</p>
-      {% for quizid, quiz in list(quizzes.items()) %}
-        <div class="quizlisting">
-            <h2>{{ quiz['title'] }}</h2>
-            <p>Quiz ID: {{quizid}}</p>
-            <p>Permanent quiz link: <a href="{{url}}/quiz?quiz-id={{quizid}}">{{url}}/quiz?quiz-id={{quizid}}</a></p>
-            {% try %}
-              <p>{{len(quiz['multiple_choice'])}} multiple choice questions</p>
-            {% except %}
-              <p>0 multiple choice questions</p>
-            {% end %}
+{% extends basetemplate.html %}
 
-            {% try %}
-              <p>{{len(quiz['short_answer'])}} short answer questions</p>
-            {% except %}
-              <p>0 short answer questions</p>
-            {% end %}
+{% block style %}
+div.quizlisting { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
+{% end %}
+
+{% block content %}
+  <h1>All the quizzes</h1>
+  <p>To search for a quiz by title, use Ctrl+F or ⌘+F.</p>
+  <p>To search for quiz by quiz ID, go to <a href="{{url}}/quiz">this page</a>, or use the aforementioned keyboard shortcut on this page.</p>
+  <p>To create a quiz, please see <a href="https://github.com/ritikmishra/quizapp/wiki/Creating-a-quiz">this wiki page on our Github repository.</a> As of now, there is no UI for creating a quiz</p>
+  {% for quizid, quiz in list(quizzes.items()) %}
+    <div class="quizlisting">
+        <h2>{{ quiz['title'] }}</h2>
+        <p>Quiz ID: {{quizid}}</p>
+        <p>Permanent quiz link: <a href="{{url}}/quiz?quiz-id={{quizid}}">{{url}}/quiz?quiz-id={{quizid}}</a></p>
+        {% try %}
+          <p>{{len(quiz['multiple_choice'])}} multiple choice questions</p>
+        {% except %}
+          <p>0 multiple choice questions</p>
+        {% end %}
+
+        {% try %}
+          <p>{{len(quiz['short_answer'])}} short answer questions</p>
+        {% except %}
+          <p>0 short answer questions</p>
+        {% end %}
 
 
-        </div>
-      {% end %}
     </div>
-    <div class="col-md-3"></div>
-
-
-  </body>
-</html>
+  {% end %}
+{% end %}
