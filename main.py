@@ -24,17 +24,9 @@ try:
 except KeyError:
     url = "http://localhost:" + str(port)
 
-# Move webpage templates into variables so we may serve them later
+# Move webpage templates into a baseloader so we may serve them later
 quizjson = importfile("./quizzes.json", isjson=True)
-quiztemplate = importfile("./quiztemplate.html", istemplate=True)
-answertemplate = importfile("./answertemplate.html", istemplate=True)
-mainpagetemplate = importfile("./mainpagetemplate.html", istemplate=True)
-quiznotfoundtemplate = importfile("./quiznotfoundtemplate.html", istemplate=True)
-quizsearchtemplate = importfile("./quizidsearchtemplate.html", istemplate=True)
-basetemplate = importfile("./basetemplate.html", istemplate=True)
-
-
-
+templateloader = template.Loader("./templates")
 
 
 class AnswerHandler(tornado.web.RequestHandler):
@@ -92,7 +84,7 @@ class AnswerHandler(tornado.web.RequestHandler):
         print(self.checked_mc)
 
         # Serve the answer page to the user
-        self.write(answertemplate.generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
+        self.write(templateloader.load("answertemplate.html").generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"],mc_answers=self.checked_mc,sa_answers=self.checked_sa))
 class NewQuizHandler(tornado.web.RequestHandler):
     """
     This handler handles requests to the /upload path. This allows the user to upload their own quizzes
@@ -163,12 +155,12 @@ class QuizHandler(tornado.web.RequestHandler):
         Handle the request by sending the quiz page if it exists, a search page if no quiz ID was specified, and a 'Quiz not found' page if the quiz was not found
         """
         if self.params['quiz-id'] == None:
-            self.write(quizsearchtemplate.generate(url=url))
+            self.write(templateloader.load("quizsearchtemplate.html").generate(url=url))
         else:
             try:
-                self.write(quiztemplate.generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
+                self.write(templateloader.load("quiztemplate.html").generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
             except KeyError:
-                self.write(quiznotfoundtemplate.generate(url=url))
+                self.write(templateloader.load("quiznotfoundtemplate.html").generate(url=url))
 class MainPageRedirHandler(tornado.web.RequestHandler):
     """
     Redirect all requests made to the path / to the path /home
@@ -182,7 +174,7 @@ class MainPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.quizjson = importfile("./quizzes.json", json=True)
         print(self.quizjson)
-        self.write(mainpagetemplate.generate(url=url,quizzes=self.quizjson))
+        self.write(templateloader.load("mainpagetemplate.html").generate(url=url,quizzes=self.quizjson))
 
 # All code below this point is from the tutorial on how to use Tornado or largely inspired by it
 # The turorial is found at found at http://www.tornadoweb.org/en/stable/
