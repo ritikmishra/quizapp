@@ -158,7 +158,7 @@ class QuizHandler(tornado.web.RequestHandler):
         Handle the request by sending the quiz page if it exists, a search page if no quiz ID was specified, and a 'Quiz not found' page if the quiz was not found
         """
         if self.params['quiz-id'] == None:
-            self.write(templateloader.load("quizsearchtemplate.html").generate(url=url))
+            self.write(templateloader.load("quizidsearchtemplate.html").generate(url=url))
         else:
             try:
                 self.write(templateloader.load("quiztemplate.html").generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
