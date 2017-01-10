@@ -15,7 +15,7 @@ def importfile(filename, isjson=False, istemplate=False):
         if isjson:
             return json.load(item)
         elif istemplate:
-            return template.template(item.read())
+            return template.Template(item.read())
         else:
             return item.read()
         item.close()
