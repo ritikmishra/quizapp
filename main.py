@@ -55,8 +55,6 @@ class AnswerHandler(tornado.web.RequestHandler):
                     self.user_mc_ans[int(key[2:])] = value
                 elif key[0:2] == 'sa':
                     self.user_sa_ans[int(key[2:])] = value
-
-            
         try:
             for question in list(self.quizjson[self.params["quiz-id"]]['multiple_choice']):
                 self.q_mc_ans.append(question["answer"])
