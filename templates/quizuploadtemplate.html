@@ -26,7 +26,7 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
           <p>
             Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" placeholder="title"/><br />
           </p>
-          <label for="sa{{ x }}keywords">Comma separated keywords: </label> <input type="text" id="sa{{ x }}keywords" placeholder="keys, belong, in, locked, safes"/><br />
+          <p>Comma separated keywords: <input type="text" id="sa{{ x }}keywords" placeholder="keys, belong, in, locked, safes"/></p><br />
         </fieldset>
       </div>
       {% end %}
