@@ -2,6 +2,7 @@
 {% block content %}
 <form action="{{url}}/upload?api=False&prepared=True" method=post>
   <input type="number" name="nummc" id="nummc" /> <label for="nummc">Number of multiple choice questions</label> <br />
+  <input type="number" name="nummco" id="nummco" /> <label for="nummc">Number of options for each multiple choice question</label> <br />
   <input type="number" name="numsa" id="numsa" /> <label for="numsa">Number of short answer questions</label><br />
   <button class="btn btn-primary">Submit!</button>
 

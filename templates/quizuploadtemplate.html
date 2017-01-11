@@ -11,8 +11,10 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
           <p>
             Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" placeholder="title"/><br />
           </p>
-          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a0"/><input type="text" id="mc{{ x }}o0" placeholder="option"/><br />
-          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a1"/><input type="text" id="mc{{ x }}o1" placeholder="option"/><br />
+          {% for y in range(num_of_mco) %}
+          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a0{{ y }}"/><input type="text" id="mc{{ x }}o{{ y }}" placeholder="option"/><br />
+          {% end %}
+
         </fieldset>
       </div>
       {% end %}
