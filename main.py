@@ -124,6 +124,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
             except KeyError:
                 self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'. Also, because you're using the API, there is no need to POST a number of multiple choice questions and short answer questions.")
         elif not self.api and self.prepared:
+            print(self.params)
             self.num_of_mc = self.params['nummc']
             self.num_of_sa = self.params['numsa']
             self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa))
