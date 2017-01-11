@@ -1,27 +1,34 @@
 {% extends basetemplate.html %}
+{% block style %}
+div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
+{% end %}
 {% block content %}
     <label for="title">Title: </label><input type="text" id="title" name="title" placeholder="The Best Quiz Ever"/>
     <div id="MultiQuestions">
       {% for x in range(num_of_mc) %}
-      <fieldset id="mc{{x}}">
-        <p>
-          Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" placeholder="title"/><br />
-        </p>
-        <input type="radio" name="mc{{ x }}" id="mc{{ x }}a0"/><input type="text" id="mc{{ x }}o0" placeholder="option"/><br />
-        <input type="radio" name="mc{{ x }}" id="mc{{ x }}a1"/><input type="text" id="mc{{ x }}o1" placeholder="option"/><br />
-      </fieldset>
+      <div class="question-set">
+        <fieldset id="mc{{x}}">
+          <p>
+            Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" placeholder="title"/><br />
+          </p>
+          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a0"/><input type="text" id="mc{{ x }}o0" placeholder="option"/><br />
+          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a1"/><input type="text" id="mc{{ x }}o1" placeholder="option"/><br />
+        </fieldset>
+      </div>
       {% end %}
     </div>
 
     <div id="ShortAnsQuestions">
       <p class="small">Keywords are words that would show up in every correct question answer. The more keywords you have, the more accurate we may be in determining in correct answers.</p>
       {% for x in range(num_of_sa) %}
-      <fieldset id="mc{{ x }}">
-        <p>
-          Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" placeholder="title"/><br />
-        </p>
-        <p>Comma separated keywords: </p> <input type="text" id="sa{{ x }}keywords" placeholder="keys, belong, in, locked, safes"/><br />
-      </fieldset>
+      <div class="question-set">
+        <fieldset id="mc{{ x }}">
+          <p>
+            Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" placeholder="title"/><br />
+          </p>
+          <label for="sa{{ x }}keywords">Comma separated keywords: </label> <input type="text" id="sa{{ x }}keywords" placeholder="keys, belong, in, locked, safes"/><br />
+        </fieldset>
+      </div>
       {% end %}
 
     </div>
