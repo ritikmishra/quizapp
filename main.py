@@ -56,7 +56,7 @@ class AnswerHandler(tornado.web.RequestHandler):
                 elif key[0:2] == 'sa':
                     self.user_sa_ans[int(key[2:])] = value
 
-
+            
         try:
             for question in list(self.quizjson[self.params["quiz-id"]]['multiple_choice']):
                 self.q_mc_ans.append(question["answer"])
@@ -153,6 +153,7 @@ class MainPageRedirHandler(tornado.web.RequestHandler):
     """
     def get(self):
         self.redirect("/home", permanent=True)
+class MainPageHandler(tornado.web.RequestHandler):
     """
     Generate a home page with all the quizzes to display to the user
     """
