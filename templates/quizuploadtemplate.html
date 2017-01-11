@@ -5,6 +5,7 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
 {% block content %}
     <label for="title">Title: </label><input type="text" id="title" name="title" placeholder="The Best Quiz Ever"/>
     <div id="MultiQuestions">
+      <h1>Multiple Choice Questions</h1>
       {% for x in range(num_of_mc) %}
       <div class="question-set">
         <fieldset id="mc{{x}}">
@@ -21,6 +22,7 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
     </div>
 
     <div id="ShortAnsQuestions">
+      <h1>Short Answer Questions</h1>
       <p class="small">Keywords are words that would show up in every correct question answer. The more keywords you have, the more accurate we may be in determining in correct answers.</p>
       {% for x in range(num_of_sa) %}
       <div class="question-set">
