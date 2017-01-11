@@ -1,0 +1,9 @@
+{% extends basetemplate.html %}
+{% block content %}
+<form action="{{url}}/upload?api=False&prepared=False" method=post>
+  <input type="number" name="nummc" id="nummc" /> <p>Number of multiple choice questions</p>
+  <input type="number" name="numsa" id="numsa" /> <p>Number of short answer questions</p>
+  <button class="btn btn-primary">Submit!</button>
+
+</form>
+{% end %}

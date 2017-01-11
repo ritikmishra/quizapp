@@ -11,7 +11,7 @@ import os
 import random
 
 # Import the algorithms that were moved to algorithms.py to manage complexity
-from algorithms import paramsfromrequest, stringtojson, Answer, importfile
+from algorithms import *
 
 # Set up variables needed to start the server
 try:
@@ -89,9 +89,13 @@ class NewQuizHandler(tornado.web.RequestHandler):
         self.params = paramsfromrequest(self.request)
         self.quizjson = importfile()
         try:
-            self.api = self.params['api']
-        except KeyError:
+            self.api = stringtobool(self.params['api'])
+        except (KeyError, TypeError):
             self.api = True
+        try:
+            self.prepared = stringtobool(self.params['prepared'])
+        except (KeyError, TypeError):
+            self.prepared = True
     def post(self):
         """
         Actually handle the request
@@ -116,7 +120,14 @@ class NewQuizHandler(tornado.web.RequestHandler):
                 elif not self.seentitle:
                     self.write("Your quiz has no title, so we did not upload it to our server. ")
             except KeyError:
-                self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
+                self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'. Also, because you're using the API, there is no need to POST a number of multiple choice questions and short answer questions.")
+        elif not self.api and not self.prepared:
+            self.write(templateloader.load("quizpreupload.html").generate(url=url))
+        elif not self.api and self.prepared:
+            self.num_of_mc = self.params['nummc']
+            self.num_of_sa = self.params['numsa']
+            self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa))
+
 class QuizHandler(tornado.web.RequestHandler):
     """
     Handle requests to the /quiz path
@@ -144,7 +155,7 @@ class QuizHandler(tornado.web.RequestHandler):
             try:
                 self.write(templateloader.load("quiztemplate.html").generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
             except KeyError:
-                self.write(templateloader.load("quiznotfoundtemplate.html").generate(url=url))
+                self.write(templateloader.load("quiznotfoundtemplate.html").generate(url=url,err="We were unable to find that quiz"))
 class MainPageRedirHandler(tornado.web.RequestHandler):
     """
     Redirect all requests made to the path / to the path /home

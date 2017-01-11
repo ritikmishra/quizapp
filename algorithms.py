@@ -9,7 +9,13 @@ import json
 import tornado.template as template
 import nltk
 from nltk.corpus import stopwords
-
+def stringtobool(var):
+    if var.lower() == "true":
+        return True
+    elif var.lower() == "false":
+        return False
+    else:
+        raise TypeError('The input value must be \'True\' or \'False\' as strings')
 def importfile():
     with open("./quizzes.json", "r+") as item:
         return json.load(item)
