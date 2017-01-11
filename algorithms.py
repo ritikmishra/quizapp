@@ -10,15 +10,11 @@ import tornado.template as template
 import nltk
 from nltk.corpus import stopwords
 
-def importfile(filename, isjson=False, istemplate=False):
-    with open(filename, "r+") as item:
-        if isjson:
-            return json.load(item)
-        elif istemplate:
-            return template.Template(item.read())
-        else:
-            return item.read()
+def importfile():
+    with open("./quizzes.json", "r+") as item:
+        return json.load(item)
         item.close()
+
 def paramsfromrequest(request):
     """Changes the format of the HTTP request parameters so that they may be more easily used"""
     params = request.arguments
@@ -106,19 +102,21 @@ class Answer:
                     self.keywords[x] = self.normalize(keylist)
                 self.percent_correct = {}
                 for q_num, u_ans in list(self.sa_answers.items()):
+                    # for each answer
                     if u_ans != '':
                         self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
-                        self.num_of_words_in_ans = len(self.u_ans_words)
                         self.num_of_words_in_both = 0
+                        self.seen_keywords = []
                         for keyword in self.keywords[q_num]:
                             for word in self.u_ans_words:
-                                if word.lower() == keyword.lower():
+                                if (word.lower() == keyword.lower()) and not(word.lower() in self.seen_keywords):
+                                    self.seen_keywords.append(word.lower())
                                     self.num_of_words_in_both += 1
                         #end of checking for keywords in user answer
                         try:
                             # If the answer is one letter, self.num_of_words_in_ans will be 0
                             # so a ZeroDivisionError is thrown. We catch the error and handle it
-                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/self.num_of_words_in_ans)*100] # calculate percentage accuracy
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/len(self.keywords[q_num]))*100] # calculate percentage accuracy
                         except ZeroDivisionError:
                             self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100] # calculate percentage accuracy
                 return self.percent_correct
