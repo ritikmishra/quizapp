@@ -96,6 +96,8 @@ class NewQuizHandler(tornado.web.RequestHandler):
             self.prepared = stringtobool(self.params['prepared'])
         except (KeyError, TypeError):
             self.prepared = True
+    def get(self):
+        self.write(templateloader.load("quizpreupload.html").generate(url=url))
     def post(self):
         """
         Actually handle the request
@@ -121,8 +123,6 @@ class NewQuizHandler(tornado.web.RequestHandler):
                     self.write("Your quiz has no title, so we did not upload it to our server. ")
             except KeyError:
                 self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'. Also, because you're using the API, there is no need to POST a number of multiple choice questions and short answer questions.")
-        elif not self.api and not self.prepared:
-            self.write(templateloader.load("quizpreupload.html").generate(url=url))
         elif not self.api and self.prepared:
             self.num_of_mc = self.params['nummc']
             self.num_of_sa = self.params['numsa']
