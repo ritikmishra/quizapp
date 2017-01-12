@@ -11,8 +11,9 @@ var sendData = function(){
   quiz['title'] = document.getElementById("title").value;
   quiz['multiple_choice'] = [];
   quiz['short_answer'] = [];
+
   for(var x = 0; x < {{num_of_mc}}; x++){
-    tempmc = {"text":document.getElementById("mc"+x.toString()+"title"), "options":[]};
+    tempmc = {"text":document.getElementById("mc"+x.toString()+"title").value, "options":[]};
     for(var a = 0; a < {{num_of_mco}}; a++){
       tempmc["options"].push(document.getElementById("mc"+x.toString()+"o"+a.toString()).value);
       if(document.getElementById("mc"+x.toString()+"a"+a.toString()).checked){
@@ -23,7 +24,7 @@ var sendData = function(){
   }
 
   for(var x = 0; x < {{num_of_sa}}; x++){
-    tempsa = {"text":document.getElementById("sa"+x.toString()+"title"), "keywords":[]};
+    tempsa = {"text":document.getElementById("sa"+x.toString()+"title").value, "keywords":[]};
     tempkeywords = document.getElementById("sa"+x.toString()+"keywords").split(",");
     for(var k = 0; x < tempkeywords.length; k++){
       tempkeywords[k] = tempkeywords[k].trim()
