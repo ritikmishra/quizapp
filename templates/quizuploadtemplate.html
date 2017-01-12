@@ -2,6 +2,41 @@
 {% block style %}
 div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align: center; display: inline-block; border-radius: 15px;}
 {% end %}
+{% block script %}
+var sendData = function(){
+  var quiz = {};
+  var url = "{{url}}";
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST",url, true)
+  quiz['title'] = document.getElementByID("title").value;
+  quiz['multiple_choice'] = [];
+  quiz['short_answer'] = [];
+  for(var x = 0; x < {{num_of_mc}}; x++){
+    tempmc = {"text":document.getElementByID("mc"+x.toString()+"title"), "options":[]};
+    for(var a = 0; a < {{num_of_mco}}; a++){
+      tempmc["options"].push(document.getElementByID("mc"+x.toString()+"o"+a.toString()).value);
+      if(document.getElementByID("mc"+x.toString()+"a"+a.toString()).checked){
+        tempmc["answer"] = document.getElementByID("mc"+x.toString()+"o"+a.toString()).value;
+      }
+    }
+    quiz["multiple_choice"].push(tempmc);
+  }
+
+  for(var x = 0; x < {{num_of_sa}}; x++){
+    tempsa = {"text":document.getElementByID("sa"+x.toString()+"title"), "keywords":[]};
+    tempkeywords = document.getElementByID("sa"+x.toString()+"keywords").split(",");
+    for(var k = 0; x < tempkeywords.length; k++){
+      tempkeywords[k] = tempkeywords[k].trim()
+    }
+    tempsa["keywords"] = tempkeywords;
+    quiz["short_answer"].push(tempsa);
+    }
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  var params = "quiz="+JSON.stringify(quiz);
+  xhr.send(params);
+}
+
+{% end %}
 {% block content %}
     <label for="title">Title: </label><input type="text" id="title" name="title" placeholder="The Best Quiz Ever"/>
     <div id="MultiQuestions">
@@ -13,7 +48,7 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
             Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" placeholder="title"/><br />
           </p>
           {% for y in range(num_of_mco) %}
-          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a0{{ y }}"/><input type="text" id="mc{{ x }}o{{ y }}" placeholder="option"/><br />
+          <input type="radio" name="mc{{ x }}" id="mc{{ x }}a{{ y }}"/><input type="text" id="mc{{ x }}o{{ y }}" placeholder="option"/><br />
           {% end %}
 
         </fieldset>
@@ -26,15 +61,15 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
       <p class="small">Keywords are words that would show up in every correct question answer. The more keywords you have, the more accurate we may be in determining in correct answers.</p>
       {% for x in range(num_of_sa) %}
       <div class="question-set">
-        <fieldset id="mc{{ x }}">
+        <fieldset id="sa{{ x }}">
           <p>
             Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" placeholder="title"/><br />
           </p>
-          <p>Comma separated keywords: <input type="text" id="sa{{ x }}keywords" placeholder="keys, belong, in, locked, safes"/></p><br />
+          <p>Comma separated keywords: <input type="text" id="sa{{ x }}keywords" placeholder="key,words,are,separated,by,commas"/></p><br />
         </fieldset>
       </div>
       {% end %}
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary" onclick="sendData()">Submit</button>
 
     </div>
 {% end %}
