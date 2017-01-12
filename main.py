@@ -101,6 +101,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
             self.done = stringtobool(self.params['done'])
         except (KeyError, TypeError):
             self.done = False
+        print(self.params)
     def get(self):
         self.write(templateloader.load("quizpreuploadtemplate.html").generate(url=url))
     def post(self):
