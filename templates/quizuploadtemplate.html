@@ -47,7 +47,7 @@ var sendData = function(){
       <div class="question-set">
         <fieldset id="mc{{x}}">
           <p>
-            Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" placeholder="title"/><br />
+            Multiple Choice Question {{ x + 1 }}: <input type="text" name="mc{{ x }}title" id="mc{{ x }}title" placeholder="title"/><br />
           </p>
           {% for y in range(num_of_mco) %}
           <input type="radio" name="mc{{ x }}" id="mc{{ x }}a{{ y }}"/><input type="text" id="mc{{ x }}o{{ y }}" placeholder="option"/><br />
@@ -65,7 +65,7 @@ var sendData = function(){
       <div class="question-set">
         <fieldset id="sa{{ x }}">
           <p>
-            Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" placeholder="title"/><br />
+            Short Answer Question {{ x + 1 }}: <input name="sa{{ x }}title"type="text" id="sa{{ x }}title" placeholder="title"/><br />
           </p>
           <p>Comma separated keywords: <input type="text" id="sa{{ x }}keywords" placeholder="key,words,are,separated,by,commas"/></p><br />
         </fieldset>
