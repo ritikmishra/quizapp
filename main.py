@@ -97,6 +97,10 @@ class NewQuizHandler(tornado.web.RequestHandler):
             self.prepared = stringtobool(self.params['prepared'])
         except (KeyError, TypeError):
             self.prepared = True
+        try:
+            self.done = stringtobool(self.params['done'])
+        except (KeyError, TypeError):
+            self.done = False
     def get(self):
         self.write(templateloader.load("quizpreuploadtemplate.html").generate(url=url))
     def post(self):
@@ -141,6 +145,8 @@ class NewQuizHandler(tornado.web.RequestHandler):
             except ValueError:
                 self.num_of_mco = 0
             self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa,num_of_mco=self.num_of_mco))
+        elif self.done:
+            self.write(self.params)
 
 class QuizHandler(tornado.web.RequestHandler):
     """
