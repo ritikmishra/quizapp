@@ -127,9 +127,18 @@ class NewQuizHandler(tornado.web.RequestHandler):
         elif not self.api and not self.prepared:
             self.write(templateloader.load("quizpreuploadtemplate.html").generate(url=url))
         elif not self.api and self.prepared:
-            self.num_of_mc = int(self.params['nummc'])
-            self.num_of_sa = int(self.params['numsa'])
-            self.num_of_mco = int(self.params['nummco'])
+            try:
+                self.num_of_mc = int(self.params['nummc'])
+            except ValueError:
+                self.num_of_mc = 0
+            try:
+                self.num_of_sa = int(self.params['numsa'])
+            except ValueError:
+                self.num_of_sa = 0
+            try:
+                self.num_of_mco = int(self.params['nummco'])
+            except ValueError:
+                self.num_of_mco = 0
             self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa,num_of_mco=self.num_of_mco))
 
 class QuizHandler(tornado.web.RequestHandler):
