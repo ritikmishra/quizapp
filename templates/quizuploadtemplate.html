@@ -31,6 +31,7 @@ var sendData = function(){
     tempsa["keywords"] = tempkeywords;
     quiz["short_answer"].push(tempsa);
     }
+  console.log(quiz);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   var params = "api=true&quiz="+JSON.stringify(quiz);
   xhr.send(params);

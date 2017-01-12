@@ -119,6 +119,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
                         json.dump(self.quizjson, quizjsonfile, ensure_ascii=True, indent=4, separators=(',', ': '))
                         quizjsonfile.close()
                     self.quizjson = importfile()
+                    print(self.quizjson)
                     self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
                 elif not self.seentitle:
                     self.write("Your quiz has no title, so we did not upload it to our server. ")
