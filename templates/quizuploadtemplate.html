@@ -8,23 +8,23 @@ var sendData = function(){
   var url = "{{url}}";
   var xhr = new XMLHttpRequest();
   xhr.open("POST",url, true)
-  quiz['title'] = document.getElementByID("title").value;
+  quiz['title'] = document.getElementById("title").value;
   quiz['multiple_choice'] = [];
   quiz['short_answer'] = [];
   for(var x = 0; x < {{num_of_mc}}; x++){
-    tempmc = {"text":document.getElementByID("mc"+x.toString()+"title"), "options":[]};
+    tempmc = {"text":document.getElementById("mc"+x.toString()+"title"), "options":[]};
     for(var a = 0; a < {{num_of_mco}}; a++){
-      tempmc["options"].push(document.getElementByID("mc"+x.toString()+"o"+a.toString()).value);
-      if(document.getElementByID("mc"+x.toString()+"a"+a.toString()).checked){
-        tempmc["answer"] = document.getElementByID("mc"+x.toString()+"o"+a.toString()).value;
+      tempmc["options"].push(document.getElementById("mc"+x.toString()+"o"+a.toString()).value);
+      if(document.getElementById("mc"+x.toString()+"a"+a.toString()).checked){
+        tempmc["answer"] = document.getElementById("mc"+x.toString()+"o"+a.toString()).value;
       }
     }
     quiz["multiple_choice"].push(tempmc);
   }
 
   for(var x = 0; x < {{num_of_sa}}; x++){
-    tempsa = {"text":document.getElementByID("sa"+x.toString()+"title"), "keywords":[]};
-    tempkeywords = document.getElementByID("sa"+x.toString()+"keywords").split(",");
+    tempsa = {"text":document.getElementById("sa"+x.toString()+"title"), "keywords":[]};
+    tempkeywords = document.getElementById("sa"+x.toString()+"keywords").split(",");
     for(var k = 0; x < tempkeywords.length; k++){
       tempkeywords[k] = tempkeywords[k].trim()
     }
