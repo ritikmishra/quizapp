@@ -5,7 +5,7 @@ div.question-set { background-color: #eee; width:90%; margin-top: 2%; text-align
 {% block script %}
 var sendData = function(){
   var quiz = {};
-  var url = "{{url}}";
+  var url = "{{url}}/upload";
   var xhr = new XMLHttpRequest();
   xhr.open("POST",url, true)
   quiz['title'] = document.getElementById("title").value;
@@ -32,7 +32,7 @@ var sendData = function(){
     quiz["short_answer"].push(tempsa);
     }
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  var params = "quiz="+JSON.stringify(quiz);
+  var params = "api=true&quiz="+JSON.stringify(quiz);
   xhr.send(params);
 }
 
