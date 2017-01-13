@@ -26,7 +26,7 @@ var sendData = function(){
   for(var x = 0; x < {{num_of_sa}}; x++){
     tempsa = {"text":document.getElementById("sa"+x+"title").value, "keywords":[]};
     tempkeywords = document.getElementById("sa"+x+"keywords").value.split(",");
-    for(var k = 0; x < tempkeywords.length; k++){
+    for(var k = 0; k < tempkeywords.length; k++){
       tempkeywords[k] = tempkeywords[k].trim()
     }
     tempsa["keywords"] = tempkeywords;
