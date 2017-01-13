@@ -34,18 +34,9 @@ var sendData = function(){
     }
   console.log(quiz);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  var serverResponse = "{{url}}/quiz?quiz-id=";
-  // Following code from stackoverflow
-  // Link: https://stackoverflow.com/questions/3193976/get-response-from-server-with-javascript-after-javascript-request
-  xhr.onreadystatechange = function() {
-  if (xhr.readyState === 4)  {
-    var serverResponse = serverResponse + xhr.responseText;
-    }
-  };
-  // End code from stackoverflow
   var params = "api=true&done=true&quiz="+JSON.stringify(quiz);
   xhr.send(params);
-  window.location = serverResponse;
+  window.location = "{{url}}/home";;
 }
 
 {% end %}

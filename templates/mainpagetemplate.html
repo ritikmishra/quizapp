@@ -6,9 +6,8 @@ div.quizlisting { background-color: #eee; width:90%; margin-top: 2%; text-align:
 
 {% block content %}
   <h1>All the quizzes</h1>
-  <p>To search for a quiz by title, use Ctrl+F or ⌘+F.</p>
-  <p>To search for quiz by quiz ID, go to <a href="{{url}}/quiz">this page</a>, or use the aforementioned keyboard shortcut on this page.</p>
-  <p>Click <a href="{{url}}/upload">here</a> to make a quiz</p>
+  <button onclick='window.location="{{url}}/quiz"'>Search for Quiz by Quiz ID</button>
+  <button onclick="window.location = '{{url}}/upload'">Make a quiz</button>
   {% for quizid, quiz in list(quizzes.items()) %}
     <div class="quizlisting">
         <h2>{{ quiz['title'] }}</h2>
