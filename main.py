@@ -146,8 +146,6 @@ class NewQuizHandler(tornado.web.RequestHandler):
             except ValueError:
                 self.num_of_mco = 0
             self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa,num_of_mco=self.num_of_mco))
-        elif self.done:
-            self.write(self.params)
 
 class QuizHandler(tornado.web.RequestHandler):
     """
