@@ -58,12 +58,11 @@ class Answer:
         self.mc_user_answers = mc_user_answers
         self.mc_question_answers = mc_question_answers
 
-        # Check if we need to download the punkt tokenizer
+        # Download missing NLTK functions
         try:
             test = nltk.word_tokenize("Test sentence")
         except LookupError:
             nltk.download("punkt")
-        # Check if we need to download the stopwords corpus
         try:
             test = stopwords.words('english')
         except LookupError:
@@ -71,13 +70,8 @@ class Answer:
 
     def mc_check(self):
         """Check if the user answers for the multiple choice questions are correct"""
-        # self.corrected is a dict of lists.
-        # Each list will contain the following items in the specified order:
-        # What the user picked(string), if they got it right(bool), what the correct answer was(string)
         self.corrected = {}
 
-        # If self.mc_user_answers is None, then an AttributeError will be thrown
-        # We catch the error so that having multiple choice questions in a quiz will not be necessary
         try:
             for key, value in list(self.mc_user_answers.items()):
                 key = int(key)
@@ -92,6 +86,9 @@ class Answer:
             return None
 
     def normalize(self, tokens):
+        """
+        Remove all stop words
+        """
         normalized_tokens = []
         # The following for loop inspired by Darren Thomas's answer to this StackOverflow question
         # https://stackoverflow.com/questions/5486337/how-to-remove-stop-words-using-nltk-or-python
@@ -101,26 +98,26 @@ class Answer:
         return normalized_tokens
 
     def sa_check(self):
+        """
+        Check short answer questions by checking how many words in the user's answer is a keyword
+        """
         if self.keywords != None and self.sa_answers != None:
             try:
                 for x, keylist in enumerate(self.keywords):
-                    # We remove all stopwords from the keywords list and do it for all such lists in self.keywords
                     self.keywords[x] = self.normalize(keylist)
                 self.percent_correct = {}
                 for q_num, u_ans in list(self.sa_answers.items()):
-                    # for each answer
                     if u_ans != '':
-                        self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
+                        self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans))
                         self.num_of_words_in_both = 0
                         for word in self.u_ans_words:
                             for keyword in self.keywords[q_num]:
                                 if (word.lower() == keyword.lower()):
                                     self.num_of_words_in_both += 1
-                        #end of checking for keywords in user answer
                         try:
-                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/len(self.u_ans_words))*100] # calculate percentage accuracy
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/len(self.u_ans_words))*100]
                         except ZeroDivisionError:
-                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100] # calculate percentage accuracy
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100]
                 return self.percent_correct
             except TypeError:
                 raise
