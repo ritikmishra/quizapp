@@ -112,11 +112,9 @@ class Answer:
                     if u_ans != '':
                         self.u_ans_words = self.normalize(nltk.word_tokenize(u_ans)) #normalize  user answer
                         self.num_of_words_in_both = 0
-                        self.seen_keywords = []
                         for keyword in self.keywords[q_num]:
                             for word in self.u_ans_words:
-                                if (word.lower() == keyword.lower()) and not(word.lower() in self.seen_keywords):
-                                    self.seen_keywords.append(word.lower())
+                                if (word.lower() == keyword.lower()):
                                     self.num_of_words_in_both += 1
                         #end of checking for keywords in user answer
                         try:
