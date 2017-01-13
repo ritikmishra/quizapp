@@ -16,7 +16,7 @@ def stringtobool(var):
         return False
     else:
         raise TypeError('The input value must be \'True\' or \'False\' as strings')
-def importfile():
+def import_quizzes_json():
     with open("./quizzes.json", "r+") as item:
         return json.load(item)
         item.close()

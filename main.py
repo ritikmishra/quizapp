@@ -4,13 +4,14 @@ import tornado.ioloop
 import tornado.web
 import tornado.template as template
 
-# Import the JSON module to manipulate quizzes.json, the os module to read environment variables, and random to generate a random number
+# Import the JSON module to manipulate quizzes.json, the os module to read environment variables
+# and random to generate a random number
 # Those modules come with python
 import json
 import os
 import random
 
-# Import the algorithms that were moved to algorithms.py to manage complexity
+# Import the algorithms that were moved to algorithms.py to increase readability
 from algorithms import *
 
 # Set up variables needed to start the server
@@ -22,20 +23,20 @@ try:
     url = os.environ['URL']
 except KeyError:
     url = "http://localhost:" + str(port)
-quizjson = importfile()
+quizjson = import_quizzes_json()
 templateloader = template.Loader("./templates")
 
-
+# Define request handlers
 class AnswerHandler(tornado.web.RequestHandler):
     """
-    This handler handles requests to the /checkanswer path. This allows the user to check the answer on their quiz.
+    This handler handles requests to the /checkanswer path. This allows the user to check their answers
     """
     def prepare(self):
         """
         Prepare for handling the request
         """
         self.params = paramsfromrequest(self.request)
-        self.quizjson = importfile()
+        self.quizjson = import_quizzes_json()
     def post(self):
         """
         Handle a post request made to /checkanswer
@@ -87,7 +88,7 @@ class NewQuizHandler(tornado.web.RequestHandler):
         Prepare for handling the request
         """
         self.params = paramsfromrequest(self.request)
-        self.quizjson = importfile()
+        self.quizjson = import_quizzes_json()
         print(self.params)
         try:
             self.api = stringtobool(self.params['api'])
@@ -123,13 +124,13 @@ class NewQuizHandler(tornado.web.RequestHandler):
                         quizjsonfile.truncate()
                         json.dump(self.quizjson, quizjsonfile, ensure_ascii=True, indent=4, separators=(',', ': '))
                         quizjsonfile.close()
-                    self.quizjson = importfile()
+                    self.quizjson = import_quizzes_json()
                     print(self.quizjson)
-                    self.redirect("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
+                    self.write("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
                 elif not self.seentitle:
-                    self.write("Your quiz has no title, so we did not upload it to our server. ")
+                    self.write(templateloader.load("errortemplate.html").generate(url=url, err="Your quiz has no title, so we did not upload it.")
             except KeyError:
-                self.write("We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'. Also, because you're using the API, there is no need to POST a number of multiple choice questions and short answer questions.")
+                self.write(templateloader.load("errortemplate.html").generate(url=url, err="We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
         elif not self.api and not self.prepared:
             self.write(templateloader.load("quizpreuploadtemplate.html").generate(url=url))
         elif not self.api and self.prepared:
@@ -146,7 +147,6 @@ class NewQuizHandler(tornado.web.RequestHandler):
             except ValueError:
                 self.num_of_mco = 0
             self.write(templateloader.load("quizuploadtemplate.html").generate(url=url,num_of_mc=self.num_of_mc,num_of_sa=self.num_of_sa,num_of_mco=self.num_of_mco))
-
 class QuizHandler(tornado.web.RequestHandler):
     """
     Handle requests to the /quiz path
@@ -156,7 +156,7 @@ class QuizHandler(tornado.web.RequestHandler):
         Prepare for handling the request by checking if there is a quiz-id parameter
         """
         self.params = paramsfromrequest(self.request)
-        self.quizjson = importfile()
+        self.quizjson = import_quizzes_json()
         try:
             print(self.params["quiz-id"])
         except KeyError:
@@ -174,7 +174,7 @@ class QuizHandler(tornado.web.RequestHandler):
             try:
                 self.write(templateloader.load("quiztemplate.html").generate(url=url,quiz=self.quizjson[self.params["quiz-id"]],id=self.params["quiz-id"]))
             except KeyError:
-                self.write(templateloader.load("quiznotfoundtemplate.html").generate(url=url,err="We were unable to find that quiz"))
+                self.write(templateloader.load("errortemplate.html").generate(url=url,err="We were unable to find that quiz"))
 class MainPageRedirHandler(tornado.web.RequestHandler):
     """
     Redirect all requests made to the path / to the path /home
@@ -186,7 +186,7 @@ class MainPageHandler(tornado.web.RequestHandler):
     Generate a home page with all the quizzes to display to the user
     """
     def get(self):
-        self.quizjson = importfile()
+        self.quizjson = import_quizzes_json()
 
         self.write(templateloader.load("mainpagetemplate.html").generate(url=url,quizzes=self.quizjson))
 
