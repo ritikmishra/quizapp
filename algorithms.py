@@ -3,7 +3,7 @@
 This module was made for the QuizApp by Ritik Mishra.
 
 It defines the Answer class which has methods for seeing if an answer is correct.
-Also has some other useful functions
+Also has a function to change strings to Booleans
 """
 import json
 import tornado.template as template
@@ -15,7 +15,7 @@ def stringtobool(var):
     elif var.lower() == "false":
         return False
     else:
-        raise TypeError('The input value must be \'True\' or \'False\' as strings')
+        raise TypeError('The input value must be the strings \'True\' or \'False\'')
 def import_quizzes_json():
     with open("./quizzes.json", "r+") as item:
         return json.load(item)
