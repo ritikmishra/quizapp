@@ -1,0 +1,9 @@
+{% extends basetemplate.html %}
+{% block content %}
+    <h1 class="quiz_title">Error</h1>
+    <p>
+      {{err}}
+    </p>
+    <p><a href="{{url}}/">Go to the main page</a></p>
+    <p><a href="{{url}}/quiz">Search for quiz by ID</a></p>
+{% end %}
