@@ -118,7 +118,7 @@ class Answer:
                                     self.num_of_words_in_both += 1
                         #end of checking for keywords in user answer
                         try:
-                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/len(self.keywords[q_num]))*100] # calculate percentage accuracy
+                            self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both/len(u_ans))*100] # calculate percentage accuracy
                         except ZeroDivisionError:
                             self.percent_correct[q_num] = [u_ans, (self.num_of_words_in_both)*100] # calculate percentage accuracy
                 return self.percent_correct
