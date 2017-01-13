@@ -128,9 +128,9 @@ class NewQuizHandler(tornado.web.RequestHandler):
                     print(self.quizjson)
                     self.write("https://codebreakquizapp.herokuapp.com/quiz?quiz-id=" + str(self.quizid))
                 elif not self.seentitle:
-                    self.write(templateloader.load("errortemplate.html").generate(url=url, err="Your quiz has no title, so we did not upload it.")
+                    self.write(templateloader.load("errortemplate.html").generate(url=url, err="Your quiz has no title, so we did not upload it."))
             except KeyError:
-                self.write(templateloader.load("errortemplate.html").generate(url=url, err="We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'.")
+                self.write(templateloader.load("errortemplate.html").generate(url=url, err="We did not detect a quiz. Make sure that it was sent under the parameter of 'quiz'."))
         elif not self.api and not self.prepared:
             self.write(templateloader.load("quizpreuploadtemplate.html").generate(url=url))
         elif not self.api and self.prepared:
