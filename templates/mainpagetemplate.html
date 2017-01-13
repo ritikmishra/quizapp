@@ -6,8 +6,9 @@ div.quizlisting { background-color: #eee; width:90%; margin-top: 2%; text-align:
 
 {% block content %}
   <h1>All the quizzes</h1>
-  <button onclick='window.location="{{url}}/quiz"'>Search for Quiz by Quiz ID</button>
-  <button onclick="window.location = '{{url}}/upload'">Make a quiz</button>
+  <button class="btn btn-primary" onclick='window.location="{{url}}/quiz"'>Search for Quiz by Quiz ID</button>
+  <br />
+  <button class="btn btn-primary" onclick="window.location = '{{url}}/upload'">Make a quiz</button>
   {% for quizid, quiz in list(quizzes.items()) %}
     <div class="quizlisting">
         <h2>{{ quiz['title'] }}</h2>
